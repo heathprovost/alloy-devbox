@@ -58,15 +58,15 @@ devbox_profile_is_bash_or_zsh() {
 #
 devbox_source() {
   local DEVBOX_GITHUB_REPO
-  DEVBOX_GITHUB_REPO="${DEVBOX_INSTALL_GITHUB_REPO:-StullerInc/alloy-devbox}"
-  if [ "${DEVBOX_GITHUB_REPO}" != 'StullerInc/alloy-devbox' ]; then
+  DEVBOX_GITHUB_REPO="${DEVBOX_INSTALL_GITHUB_REPO:-heathprovost/alloy-devbox}"
+  if [ "${DEVBOX_GITHUB_REPO}" != 'heathprovost/alloy-devbox' ]; then
     { devbox_echo >&2 "$(cat)" ; } << EOF
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE REPO IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
 
-The default repository for this install is \`StullerInc/alloy-devbox\`,
+The default repository for this install is \`heathprovost/alloy-devbox\`,
 but the environment variables \`\$DEVBOX_INSTALL_GITHUB_REPO\` is
 currently set to \`${DEVBOX_GITHUB_REPO}\`.
 
