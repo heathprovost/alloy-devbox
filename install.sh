@@ -33,7 +33,7 @@ devbox_install_dir() {
 }
 
 devbox_latest_version() {
-  devbox_echo "v0.39.5"
+  devbox_echo "main"
 }
 
 devbox_profile_is_bash_or_zsh() {
