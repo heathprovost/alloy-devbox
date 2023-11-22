@@ -17,8 +17,11 @@ token = ghp_YourGithubTokenForNpmPackageInstalls
 Just place this file in the folder where you downloaded the script before running it.
 
 ### Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
-```console
-C:\Users\foo> wsl --install
+
+Open a powershell or cmd prompt and run the following:
+
+```powershell
+PS C:\Users\foo> wsl --install
 ```
 
 ### MacOS using [orbstack](https://orbstack.dev)
