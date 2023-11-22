@@ -23,7 +23,7 @@ ANSI_NC='\e[39m'
 #
 # installs common-packages
 #
-function common_packages() {
+function install_common_packages() {
   # runs apt-get update if needed
   if [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
     echo "Running apt-get update..."
@@ -38,7 +38,7 @@ function common_packages() {
 #
 # installs git
 #
-function git() {
+function install_git() {
   # install os package
   sudo apt-get -y install git
 
@@ -59,7 +59,7 @@ function git() {
 #
 # installs node using nvm and sets up required global packages
 #
-function node () {
+function install_node () {
   # install packages needed by node gyp to do builds
   sudo apt-get -y install make gcc g++ python3-minimal
 
@@ -96,7 +96,7 @@ function node () {
 #
 # installs dotnet sdk using microsoft package feed
 #
-function dotnet_sdk() {
+function install_dotnet_sdk() {
   # remove the existing .NET packages from your distribution. You want to start over 
   # and ensure that you don't install them from the wrong repository.
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
@@ -131,7 +131,7 @@ EOF
 #
 # installs AWS CLI v2
 #
-function aws_cli() {
+function install_aws_cli() {
   # download and install aws-cli v2
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
   unzip -q awscliv2.zip
@@ -143,7 +143,7 @@ function aws_cli() {
 #
 # installs os package dependencies needed to run cypress
 #
-function cypress_deps() {
+function install_cypress_deps() {
   # install packages required for cypress
   sudo apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 }
@@ -155,7 +155,7 @@ function cypress_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  eval $1 &>> devbox.log 2>&1 &
+  eval install_$1 &>> devbox.log 2>&1 &
   pid=$!
   delay=0.05
 
