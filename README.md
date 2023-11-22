@@ -20,7 +20,7 @@ Just place this file in the folder where you downloaded the script before runnin
 
 Open a powershell or cmd prompt and run the following:
 
-```bash
+```sh
 C:\Users\foo> wsl --install
 ```
 
