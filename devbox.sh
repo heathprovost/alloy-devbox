@@ -201,9 +201,7 @@ function execute_and_wait() {
 }
 
 #
-# Execute a series of installer scripts sequentially and report results
-#
-# @param array $1 - array of installer names
+# Execute a series of installers sequentially and report results
 #
 function setup() {
   # delete setup.log if it exists
