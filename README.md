@@ -21,7 +21,7 @@ Just place this file in the folder where you downloaded the script before runnin
 Open a powershell or cmd prompt and run the following:
 
 ```console
-C:\Users\foo> wsl --install
+C:\Users\foo>$ wsl --install
 ```
 
 ### MacOS using [orbstack](https://orbstack.dev)
