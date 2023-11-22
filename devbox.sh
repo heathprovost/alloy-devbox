@@ -132,8 +132,11 @@ EOF
 # installs AWS CLI v2
 #
 function install_aws_cli() {
-  # download and install aws-cli v2
-  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  # get the architecture id for the machine this script is running on
+  arch=$(uname -m)
+
+  # download and install aws-cli v2 for current arch (aarch64 or x86_64 are supported by AWS)
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-${arch}.zip" -o "awscliv2.zip"
   unzip -q awscliv2.zip
   sudo ./aws/install
   rm -rf awscliv2.zip
@@ -212,7 +215,7 @@ function setup() {
   execute_and_wait 'git'
   execute_and_wait 'node'
   execute_and_wait 'dotnet_sdk'
-  execute_and_wait 'awl_cli'
+  execute_and_wait 'aws_cli'
   execute_and_wait 'cypress_deps'
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
