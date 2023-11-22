@@ -41,6 +41,16 @@ function install_git() {
   git config --global core.autocrlf false
   git config --global core.eol lf
 
+  # use tests to determine the environment we are in and setup GCM accordingly
+  if [ -d "/opt/orbstack-guest" ]; then
+    # we are in an orbstack vm on macos so link to its GCM binary and configure for it
+    mac link git-credential-manager
+    git config --global credential.helper "/opt/orbstack-guest/data/bin/cmdlinks/git-credential-manager"
+  elif [ -d "/run/WSL" ]; then
+    # we are in a wsl2 vm on windows so configure to call the windows GCM binary
+    git config --global credential.helper "/mnt/c/Program\ Files/git/mingw64/bin/git-credential-manager.exe"
+  fi
+
   # set user.name and user.email if available in environment
   if [ -n "${GIT_USER_NAME}" ] && [ -n "${GIT_USER_EMAIL}" ]; then
     git config --global user.name "${GIT_USER_NAME}"
@@ -88,38 +98,34 @@ function install_node () {
 }
 
 #
+# installs java jdk 11 for solr and keycloak
+#
+function install_java_jdk () {
+  # install java
+  sudo apt-get -y install openjdk-11-jdk-headless
+}
+
+#
 # installs dotnet sdk using microsoft package feed
 #
 function install_dotnet_sdk() {
-  # remove the existing .NET packages from your distribution. You want to start over 
-  # and ensure that you don't install them from the wrong repository.
+  # remove the existing .NET packages from your distribution just in case to avoid conflicts
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
 
-  # create /etc/apt/preferences.d/ignore-ubuntu-dotnet-packages.pref, if it doesn't already exist.
-  sudo touch /etc/apt/preferences.d/ignore-ubuntu-dotnet-packages.pref
+  # set node version
+  local dotnet_version='6.0.410'
 
-  # add the following to the .pref file, which prevents packages that start with dotnet, 
-  # aspnetcore, or netstandard from being sourced from the ubuntu repository.
-  cat > /etc/apt/preferences.d/ignore-ubuntu-dotnet-packages.pref <<EOF
-Package: dotnet* aspnet* netstandard*
-Pin: origin "archive.ubuntu.com"
-Pin-Priority: -10
-EOF
+  # run the dotnet-install script
+  curl -fsSL  https://dot.net/v1/dotnet-install.sh | bash -s -- --version $dotnet_version
 
-  # get current ubuntu version
-  declare repo_version=$(if command -v lsb_release &> /dev/null; then lsb_release -r -s; else grep -oP '(?<=^VERSION_ID=).+' /etc/os-release | tr -d '"'; fi)
+  # append exports to .bashrc if needed
+  if ! grep -qc '$HOME/.dotnet' "$HOME/.bashrc"; then
+    printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
+  fi
 
-  # Download Microsoft signing key and repository
-  wget https://packages.microsoft.com/config/ubuntu/$repo_version/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-
-  # Install Microsoft signing key and repository
-  DEBIAN_FRONTEND=noninteractive sudo dpkg -i packages-microsoft-prod.deb
-
-  # Clean up
-  rm -f packages-microsoft-prod.deb
-
-  # Install dotnet-sdk-6.0
-  sudo apt-get -y install dotnet-sdk-6.0
+  # update current shell with exports needed to run dotnet commands
+  export DOTNET_ROOT="$HOME/.dotnet"
+  export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 }
 
 #
@@ -143,6 +149,14 @@ function install_aws_cli() {
 function install_cypress_deps() {
   # install packages required for cypress
   sudo apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+}
+
+#
+# installs os package dependencies needed to run meteor builds
+#
+function install_meteor_deps() {
+  # install packages required for meteor builds
+  sudo apt-get -y install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
 }
 
 #
@@ -246,8 +260,10 @@ function setup() {
   execute_and_wait 'git'
   execute_and_wait 'node'
   execute_and_wait 'dotnet_sdk'
+  execute_and_wait 'java_jdk'
   execute_and_wait 'aws_cli'
   execute_and_wait 'cypress_deps'
+  execute_and_wait 'meteor_deps'
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
   printf "Run ${ANSI_BLUE}'git clone https://github.com/StullerInc/alloy.git'${ANSI_NC} to get started\n"

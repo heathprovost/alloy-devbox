@@ -18,7 +18,7 @@ Just place this file in the folder where you downloaded the script before runnin
 
 ### Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-Note: The following assumes you have not yet installed the WSL2 subsystem and will setup
+The following assumes you have not yet installed the WSL2 subsystem and will setup
 devbox in the default Ubuntu distribution.
 
 ```shell
@@ -27,6 +27,9 @@ C:\Users\foo> wsl --set-default-version 2
 ```
 
 ### MacOS using [orbstack](https://orbstack.dev)
+
+This will create a machine called "alloy" and setup devbox in it all from a single command.
+
 ```console
 foo@bar:~$ orb create ubuntu alloy && orb -m alloy ./devbox.sh
 ```
