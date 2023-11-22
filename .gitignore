@@ -1,6 +1,6 @@
 .env
 .npmrc
-devbox.env
+.devboxrc
 devbox.log
 
 # system files

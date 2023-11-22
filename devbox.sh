@@ -1,24 +1,18 @@
 #!/bin/bash
 
-# import from devbox.env if it exists otherwise error and exit
-if [ -f devbox.env ]; then
-  set -o allexport
-  source <(cat devbox.env | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g")
-  set +o allexport
-else
-  echo "Please create devbox.env file with your defaults. See README.md"
-  exit 1
-fi
-
 # constants
 CHECK_SYMBOL='\u2713'
 X_SYMBOL='\u2A2F'
 ANSI_RED='\e[31m'
 ANSI_BLUE='\e[34m'
 ANSI_GREEN='\e[32m'
+ANSI_YELLOW='\e[33m'
 ANSI_NC='\e[39m'
 
-# installers
+# globals
+GIT_USER_NAME=''
+GIT_USER_EMAIL=''
+GIT_HUB_PKG_TOKEN=''
 
 #
 # installs common-packages
@@ -86,10 +80,10 @@ function install_node () {
   npm install -g @heathprovost/nawsso
 
   # setup default .npmrc file if it does not exist and GIT_HUB_PKG_TOKEN is set
-  if [ ! -f "$HOME/.npmrc" ] && [ -n "${GIT_HUB_PKG_TOKEN}" ]; then
+  if [ -n "${GIT_HUB_PKG_TOKEN}" ]; then
     printf "//npm.pkg.github.com/:_authToken=${GIT_HUB_PKG_TOKEN}\n@stullerinc:registry=https://npm.pkg.github.com" > "$HOME/.npmrc"
   else
-    echo ".npmrc already exists or GIT_HUB_PKG_TOKEN not set, skipping"
+    echo "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
   fi  
 }
 
@@ -204,9 +198,46 @@ function execute_and_wait() {
 }
 
 #
+# return its argument with leading and trailing space trimmed
+#
+trim() {
+  local var="$*"
+  # remove leading whitespace characters
+  var="${var#"${var%%[![:space:]]*}"}"
+  # remove trailing whitespace characters
+  var="${var%"${var##*[![:space:]]}"}"
+  printf '%s' "$var"
+}
+
+#
 # Execute a series of installers sequentially and report results
 #
 function setup() {
+  local name
+  local email
+  local token
+
+  # import from .devboxrc if it exists otherwise prompt for input of options
+  if [ -f .devboxrc ]; then
+    set -o allexport
+    source <(cat .devboxrc | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
+    set +o allexport
+  else
+    printf "💡 ${ANSI_YELLOW}You can avoid prompts by creating a .devboxrc file. See README.md${ANSI_NC}\n\n"
+    printf "${ANSI_BLUE}Enter your full name for git configuration: ${ANSI_NC}"
+    read name
+    printf "${ANSI_BLUE}Enter your email for git configuration: ${ANSI_NC}"
+    read email
+    printf "${ANSI_BLUE}Enter your github package token for npm configuration: ${ANSI_NC}"
+    read token
+    printf "\n"
+  fi
+
+  # copy options into globals, trimming whitespace if any
+  GIT_USER_NAME=$(trim $name)
+  GIT_USER_EMAIL=$(trim $email)
+  GIT_HUB_PKG_TOKEN=$(trim $token)
+
   # delete setup.log if it exists
   rm -f devbox.log
 
