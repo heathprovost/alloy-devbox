@@ -18,10 +18,12 @@ Just place this file in the folder where you downloaded the script before runnin
 
 ### Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-Open a powershell or cmd prompt and run the following:
+Note: The following assumes you have not yet installed the WSL2 subsystem and will setup
+devbox in the default Ubuntu distribution.
 
 ```shell
 C:\Users\foo> wsl --install
+C:\Users\foo> wsl --set-default-version 2
 ```
 
 ### MacOS using [orbstack](https://orbstack.dev)
