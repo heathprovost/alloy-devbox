@@ -34,16 +34,12 @@ function resolve_sudo() {
 # installs common-packages
 #
 function install_common_packages() {
-  # runs apt-get update if needed
-  if [ ! -f "/var/log/apt/history.log"] || [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
-    echo "Running first time apt-get update and upgrade..."
-    sudo apt-get -y update
-    sudo apt-get -y upgrade
-    sudo apt-get -y autoremove
-  else
-    echo "Skipping first time update and upgrade."
-  fi
+  # runs apt-get update, upgrade, and autoremove
+  sudo apt-get -y update
+  sudo apt-get -y upgrade
+  sudo apt-get -y autoremove
 
+  # install commonly used packaged
   sudo apt-get -y install curl wget nano zip unzip
 }
 
