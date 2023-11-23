@@ -7,8 +7,8 @@ if [ "$(id -u)" -eq 0 ] && [ -n "$SUDO_USER" ]; then
     printf "User $SUDO_USER is sudo'd as root\n"
   else
     # user is root
+    printf "User is root\n"
   fi
-  printf "User is root\n"
 else
   # user is neither root or sudo'd
   printf "User is $USER\n" >&2
