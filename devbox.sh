@@ -229,12 +229,13 @@ function setup() {
   local token
 
   # import from .devboxrc if it exists otherwise prompt for input of options
-  if [ -f .devboxrc ]; then
+  if [ -f "$HOME/.devboxrc" ]; then
+    printf "💡 ${ANSI_YELLOW}Using existing ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} file for configuration.${ANSI_NC}\n\n"
     set -o allexport
-    source <(cat .devboxrc | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
+    source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-    printf "💡 ${ANSI_YELLOW}You can avoid prompts by creating a .devboxrc file. See README.md${ANSI_NC}\n\n"
+  printf "💡 ${ANSI_YELLOW}Prompting for required configuration. Responses will be saved in ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} for future use.${ANSI_NC}\n\n"
     printf "${ANSI_BLUE}Enter your full name for git configuration: ${ANSI_NC}"
     read name
     printf "${ANSI_BLUE}Enter your email for git configuration: ${ANSI_NC}"
@@ -248,6 +249,9 @@ function setup() {
   GIT_USER_NAME=$(trim $name)
   GIT_USER_EMAIL=$(trim $email)
   GIT_HUB_PKG_TOKEN=$(trim $token)
+
+  # save to .devboxrc for future use
+  printf "name = $GIT_USER_NAME\nemail = $GIT_USER_EMAIL\ntoken = $GIT_HUB_PKG_TOKEN\n" > "$HOME/.devboxrc"
 
   # delete setup.log if it exists
   rm -f devbox.log
