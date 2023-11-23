@@ -292,7 +292,7 @@ function setup() {
   execute_and_wait 'meteor_deps'
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
-  if [ "${ENV_UPDATED}" = "true" ]; then
+  if [ -z ${ENV_UPDATED+x} ]; then
     printf "✨ ${ANSI_YELLOW}Environment has been updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
   fi
 }
