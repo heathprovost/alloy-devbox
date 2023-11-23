@@ -266,7 +266,7 @@ function setup() {
   execute_and_wait 'meteor_deps'
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
-  printf "Run ${ANSI_BLUE}'git clone https://github.com/StullerInc/alloy.git'${ANSI_NC} to get started\n"
+  printf "💡 ${ANSI_YELLOW}Your environment was updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
 }
 
 setup

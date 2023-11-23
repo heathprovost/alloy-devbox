@@ -18,6 +18,12 @@ Just place this file in the folder where you downloaded the script before runnin
 
 ### Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
+It is **highly** recommended for quality of life to configure your WSL user account to disable password prompting when running `sudo` commands. You can do this by running the following command:
+
+```shell
+echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee "/etc/sudoers.d/$USER"
+```
+
 The following assumes you have not yet installed the WSL2 subsystem and will setup
 devbox in the default Ubuntu distribution.
 
