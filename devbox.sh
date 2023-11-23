@@ -225,14 +225,14 @@ function execute_and_wait() {
   wait $!
   exitCode=$?
 
-  if [ "$exitCode" -eq "0" ]; then
+  if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
     printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Installing $1\n"
+    if [ "$exitCode" -eq "90" ]; then
+      # 90 means environment will need to be reloaded, so this still successful frun
+      ENV_UPDATED=true
+    fi
   elif [ "$exitCode" -eq "65" ]; then
     printf "${ANSI_BLUE}${X_SYMBOL}${ANSI_NC} Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
-  elif [ "$exitCode" -eq "90" ]; then
-    # 90 means environment will need to be reloaded
-    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
-    ENV_UPDATED=true
   else
     printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
   fi
