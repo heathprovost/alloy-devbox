@@ -112,7 +112,7 @@ function install_node () {
     echo "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
   fi
   if [ $env_updated = true ]; then
-    exit 1000
+    exit 90
   fi  
 }
 
@@ -150,7 +150,7 @@ function install_dotnet_sdk() {
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
   if [ $env_updated = true ]; then
-    exit 1000
+    exit 90
   fi
 }
 
@@ -231,9 +231,9 @@ function execute_and_wait() {
     printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Installing $1\n"
   elif [ "$exitCode" -eq "65" ]; then
     printf "${ANSI_BLUE}${X_SYMBOL}${ANSI_NC} Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
-  elif [ "$exitCode" -eq "1000" ]; then
-    # 1000 means environment will need to be reloaded
-    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing 1000 $1\n"
+  elif [ "$exitCode" -eq "90" ]; then
+    # 90 means environment will need to be reloaded
+    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
     ENV_UPDATED=true
   else
     printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
