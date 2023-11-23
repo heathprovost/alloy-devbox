@@ -273,7 +273,13 @@ function setup() {
   printf "name = $GIT_USER_NAME\nemail = $GIT_USER_EMAIL\ntoken = $GIT_HUB_PKG_TOKEN\n" > "$HOME/.devboxrc"
 
   # delete setup.log if it exists
-  rm -f "/var/log/devbox.log"
+  if [ -f "/var/log/devbox.log" ]; then
+    sudo rm -f "/var/log/devbox.log"
+  fi
+
+  # create log file and make current user owner
+  sudo touch "/var/log/devbox.log"
+  sudo chown "$USER:" "/var/log/devbox.log"
 
   # run installers
   execute_and_wait 'common_packages'
