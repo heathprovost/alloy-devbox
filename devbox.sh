@@ -35,7 +35,7 @@ function resolve_sudo() {
 #
 function install_common_packages() {
   # runs apt-get update if needed
-  if [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
+  if [ ! -f "/var/log/apt/history.log"] || [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
     echo "Running first time apt-get update and upgrade..."
     sudo apt-get -y update
     sudo apt-get -y upgrade
