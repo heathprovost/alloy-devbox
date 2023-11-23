@@ -225,6 +225,8 @@ function execute_and_wait() {
   wait $!
   exitCode=$?
 
+  printf "\n\n\n$exitCode\n\n\n"
+
   if [ "$exitCode" -eq "0" ]; then
     printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Installing $1\n"
   elif [ "$exitCode" -eq "65" ]; then
