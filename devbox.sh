@@ -9,21 +9,26 @@ ANSI_GREEN='\e[32m'
 ANSI_YELLOW='\e[33m'
 ANSI_NC='\e[39m'
 
-if [ -n "$SUDO_USER" ]; then
-  # user is sudo'd
-  printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} This script must be restarted *without* using sudo.\n"
-  exit 1
-else
-  # validate sudo session (prompting for password if necessary)
-  (sudo -n true 2> /dev/null)
-  local sudo_session_ok=$?
-  if [ $sudo_session_ok != 0 ]; then
-    sudo -v 
-    if [ $? != 0 ] ; then 
-      exit 1
+#
+# ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
+#
+function resolve_sudo() {
+  if [ -n "$SUDO_USER" ]; then
+    # user is sudo'd
+    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} This script must be restarted *without* using sudo.\n"
+    exit 1
+  else
+    # validate sudo session (prompting for password if necessary)
+    (sudo -n true 2> /dev/null)
+    local sudo_session_ok=$?
+    if [ $sudo_session_ok != 0 ]; then
+      sudo -v 
+      if [ $? != 0 ] ; then 
+        exit 1
+      fi
     fi
   fi
-fi
+}
 
 #
 # installs common-packages
@@ -288,4 +293,5 @@ function setup() {
   fi
 }
 
+resolve_sudo
 setup
