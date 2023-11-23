@@ -182,7 +182,7 @@ function install_meteor_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  eval install_$1 &>> "$HOME/devbox.log" 2>&1 &
+  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
   pid=$!
   delay=0.05
 
@@ -195,7 +195,7 @@ function execute_and_wait() {
   index=0
   framesCount=${#frames[@]}
 
-  printf "===================================\n$1\n===================================\n" &>> "$HOME/devbox.log"
+  printf "===================================\n$1\n===================================\n" &>> "/var/log/devbox.log"
   while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
     printf "${ANSI_BLUE}${frames[$index]}${ANSI_NC} Installing $1"
 
@@ -273,7 +273,7 @@ function setup() {
   printf "name = $GIT_USER_NAME\nemail = $GIT_USER_EMAIL\ntoken = $GIT_HUB_PKG_TOKEN\n" > "$HOME/.devboxrc"
 
   # delete setup.log if it exists
-  rm -f "$HOME/devbox.log"
+  rm -f "/var/log/devbox.log"
 
   # run installers
   execute_and_wait 'common_packages'
