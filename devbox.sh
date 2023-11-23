@@ -9,11 +9,6 @@ ANSI_GREEN='\e[32m'
 ANSI_YELLOW='\e[33m'
 ANSI_NC='\e[39m'
 
-# globals
-GIT_USER_NAME=''
-GIT_USER_EMAIL=''
-GIT_HUB_PKG_TOKEN=''
-
 #
 # installs common-packages
 #
@@ -75,6 +70,7 @@ function install_node () {
   if [ ! -d "${HOME}/.nvm/.git" ]; then
     # download and run install script directly from nvm github repo
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
+    ENV_UPDATED=$true
   fi
 
   # update current shell with exports needed to run nvm commands
@@ -121,6 +117,7 @@ function install_dotnet_sdk() {
   # append exports to .bashrc if needed
   if ! grep -qc '$HOME/.dotnet' "$HOME/.bashrc"; then
     printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
+    ENV_UPDATED=$true
   fi
 
   # update current shell with exports needed to run dotnet commands
@@ -266,7 +263,9 @@ function setup() {
   execute_and_wait 'meteor_deps'
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
-  printf "💡 ${ANSI_YELLOW}Your environment was updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
+  if [ $ENV_UPDATED ]; then
+    printf "💡 ${ANSI_YELLOW}Environment has been updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
+  fi
 }
 
 setup
