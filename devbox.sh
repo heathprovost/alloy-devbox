@@ -37,10 +37,11 @@ function install_common_packages() {
   # runs apt-get update if needed
   if [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
     echo "Running first time apt-get update and upgrade..."
-    sudo apt-get update
-    sudo apt-get upgrade
+    sudo apt-get -y update
+    sudo apt-get -y upgrade
+    sudo apt-get -y autoremove
   else
-    echo "Skipping apt-get update."
+    echo "Skipping first time update and upgrade."
   fi
 
   sudo apt-get -y install curl wget nano zip unzip
