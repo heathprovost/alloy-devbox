@@ -78,6 +78,7 @@ function install_git() {
 # installs node using nvm and sets up required global packages
 #
 function install_node () {
+  local env_updated
   # install packages needed by node gyp to do builds
   sudo apt-get -y install make gcc g++ python3-minimal
 
@@ -89,7 +90,7 @@ function install_node () {
   if [ ! -d "${HOME}/.nvm/.git" ]; then
     # download and run install script directly from nvm github repo
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
-    ENV_UPDATED="true"
+    env_updated=true
   fi
 
   # update current shell with exports needed to run nvm commands
@@ -109,6 +110,9 @@ function install_node () {
     printf "//npm.pkg.github.com/:_authToken=${GIT_HUB_PKG_TOKEN}\n@stullerinc:registry=https://npm.pkg.github.com" > "$HOME/.npmrc"
   else
     echo "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
+  fi
+  if [ $env_updated = true ]; then
+    exit 1000
   fi  
 }
 
@@ -124,6 +128,8 @@ function install_java_jdk () {
 # installs dotnet sdk using microsoft package feed
 #
 function install_dotnet_sdk() {
+  local env_updated
+
   # remove the existing .NET packages from your distribution just in case to avoid conflicts
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
 
@@ -136,12 +142,16 @@ function install_dotnet_sdk() {
   # append exports to .bashrc if needed
   if ! grep -qc '$HOME/.dotnet' "$HOME/.bashrc"; then
     printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
-    ENV_UPDATED="true"
+    env_updated=true
   fi
 
   # update current shell with exports needed to run dotnet commands
   export DOTNET_ROOT="$HOME/.dotnet"
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
+
+  if [ $env_updated = true ]; then
+    exit 1000
+  fi
 }
 
 #
@@ -219,6 +229,10 @@ function execute_and_wait() {
     printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Installing $1\n"
   elif [ "$exitCode" -eq "65" ]; then
     printf "${ANSI_BLUE}${X_SYMBOL}${ANSI_NC} Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
+  elif [ "$exitCode" -eq "1000" ]; then
+    # 1000 means environment will need to be reloaded
+    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
+    ENV_UPDATED=true
   else
     printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
   fi
@@ -292,7 +306,7 @@ function setup() {
   execute_and_wait 'meteor_deps'
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
-  if [ -z ${ENV_UPDATED+x} ]; then
+  if [ "$ENV_UPDATED" = true ]; then
     printf "✨ ${ANSI_YELLOW}Environment has been updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
   fi
 }
