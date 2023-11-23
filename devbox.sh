@@ -1,13 +1,5 @@
 #!/bin/bash
 
-if [ -n "$SUDO_USER" ]; then
-  # user is sudo'd
-  printf "User is $SUDO_USER sudo'd as root\n"
-else
-  # user is root
-  printf "User is $USER\n"
-fi
-
 # constants
 CHECK_SYMBOL='\u2713'
 X_SYMBOL='\u2A2F'
@@ -16,6 +8,14 @@ ANSI_BLUE='\e[34m'
 ANSI_GREEN='\e[32m'
 ANSI_YELLOW='\e[33m'
 ANSI_NC='\e[39m'
+
+if [ -n "$SUDO_USER" ]; then
+  # user is sudo'd
+  printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} This script must be restarted *without* using sudo.\n"
+  exit 1
+ellse
+  sudo --validate 
+fi
 
 #
 # installs common-packages
