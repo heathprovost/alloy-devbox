@@ -21,7 +21,7 @@ function resolve_sudo() {
     # validate sudo session (prompting for password if necessary)
     (sudo -n true 2> /dev/null)
     local sudo_session_ok=$?
-    if [ $sudo_session_ok != 0 ]; then
+    if [ "$sudo_session_ok" != "0" ]; then
       sudo -v 
       if [ $? != 0 ] ; then 
         exit 1
