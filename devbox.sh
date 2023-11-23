@@ -230,12 +230,12 @@ function setup() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    printf "💡 ${ANSI_YELLOW}Using existing ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} file for configuration.${ANSI_NC}\n\n"
+    printf "✨ ${ANSI_YELLOW}Using existing ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} file for configuration.${ANSI_NC}\n\n"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-  printf "💡 ${ANSI_YELLOW}Prompting for required configuration. Responses will be saved in ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} for future use.${ANSI_NC}\n\n"
+  printf "✨ ${ANSI_YELLOW}Prompting for required configuration. Responses will be saved in ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} for future use.${ANSI_NC}\n\n"
     printf "${ANSI_BLUE}Enter your full name for git configuration: ${ANSI_NC}"
     read name
     printf "${ANSI_BLUE}Enter your email for git configuration: ${ANSI_NC}"
@@ -268,7 +268,7 @@ function setup() {
 
   printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
   if [ $ENV_UPDATED ]; then
-    printf "💡 ${ANSI_YELLOW}Environment has been updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
+    printf "✨ ${ANSI_YELLOW}Environment has been updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
   fi
 }
 
