@@ -1,5 +1,19 @@
 #!/bin/bash
 
+if [ "$(id -u)" -eq 0 ] && [ -n "$SUDO_USER" ]; then
+  # script was run as sudo, restart as original user
+  if [ -n "$SUDO_USER" ]; then
+    # user is sudo'd
+    printf "User $SUDO_USER is sudo'd as root\n"
+  else
+    # user is root
+  fi
+  printf "User is root\n"
+else
+  # user is neither root or sudo'd
+  printf "User is $USER\n" >&2
+fi
+
 # constants
 CHECK_SYMBOL='\u2713'
 X_SYMBOL='\u2A2F'
