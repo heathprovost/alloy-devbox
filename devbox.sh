@@ -25,7 +25,7 @@ function install_common_packages() {
   # runs apt-get update if needed
   if [ ! -d "/var/lib/apt/lists" ] || [ "$(ls /var/lib/apt/lists/ | wc -l)" = "0" ]; then
     echo "Running apt-get update..."
-    apt-get update
+    sudo apt-get update
   else
     echo "Skipping apt-get update."
   fi
