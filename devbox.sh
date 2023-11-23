@@ -62,7 +62,7 @@ function install_git() {
     git config --global credential.helper "/opt/orbstack-guest/data/bin/cmdlinks/git-credential-manager"
   elif [ -d "/run/WSL" ]; then
     # we are in a wsl2 vm on windows so configure to call the windows GCM binary
-    git config --global credential.helper "/mnt/c/Program\ Files/git/mingw64/bin/git-credential-manager.exe"
+    git config --global credential.helper "/mnt/c/Program\ Files/git/mingw64/bin/git-credential-manager-core.exe"
   fi
 
   # set user.name and user.email if available in environment
