@@ -231,7 +231,7 @@ function execute_and_wait() {
     printf "${ANSI_BLUE}${X_SYMBOL}${ANSI_NC} Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
   elif [ "$exitCode" -eq "1000" ]; then
     # 1000 means environment will need to be reloaded
-    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
+    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing 1000 $1\n"
     ENV_UPDATED=true
   else
     printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
