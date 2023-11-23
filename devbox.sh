@@ -14,6 +14,7 @@ if [ -n "$SUDO_USER" ]; then
   printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} This script must be restarted *without* using sudo.\n"
   exit 1
 ellse
+  # validate sudo session (prompting for password if necessary)
   sudo --validate 
 fi
 
