@@ -141,7 +141,7 @@ function install_dotnet_sdk() {
 
   # append exports to .bashrc if needed
   if ! grep -qc '$HOME/.dotnet' "$HOME/.bashrc"; then
-    printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
+    printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport DOTNET_CLI_TELEMETRY_OPTOUT=1\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
     env_updated=true
   fi
 
