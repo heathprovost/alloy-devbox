@@ -13,9 +13,16 @@ if [ -n "$SUDO_USER" ]; then
   # user is sudo'd
   printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} This script must be restarted *without* using sudo.\n"
   exit 1
-ellse
+else
   # validate sudo session (prompting for password if necessary)
-  sudo --validate 
+  (sudo -n true 2> /dev/null)
+  local sudo_session_ok=$?
+  if [ $sudo_session_ok != 0 ]; then
+    sudo -v 
+    if [ $? != 0 ] ; then 
+      exit 1
+    fi
+  fi
 fi
 
 #
