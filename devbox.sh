@@ -42,7 +42,7 @@ function print_as() {
   local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/\('[^']*'\)/\${blue}\1\${reset}\${color}/g")")
 
   if [ "${msgtype}" -eq "prompt" ]; then
-    nl=""
+    nl=''
   fi
 
   printf "${glyph}${color}${msg}${reset}${nl}"
