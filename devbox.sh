@@ -299,7 +299,7 @@ function configure() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    printf_of_type "info" "Using existing %s file for configuration.\n\n" "$(printf_of_type "blue" "~/.devboxrc"")"
+    printf_of_type "info" "Using existing %s file for configuration.\n\n" "$(printf_of_type "blue" "'~/.devboxrc'")"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
