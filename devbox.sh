@@ -4,7 +4,7 @@
 # prints a message to the console. Each type is display using a custom glyph and/or color
 # single quoted substrings are highlighted in blue when detected
 #
-# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "link"
+# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "magic"
 # @param string $2 - the message to print
 #
 function print_as() {
@@ -28,8 +28,8 @@ function print_as() {
   local info_color="$yellow"
   local prompt_glyph=""
   local prompt_color="$blue"
-  local link_glyph=""
-  local link_color="$blue"
+  local magic_glyph="🪄"
+  local magic_color="$cyan"
   local nl="\n"
 
   # store $1 as the msgtype
@@ -350,7 +350,7 @@ function completion_report() {
   print_as "success" "Done!"
   printf "\n"
   if [ "$ENV_UPDATED" = true ]; then
-    print_as "info" "Environment has been updated. Run 'source ~/.bashrc' to reload your current shell session"
+    print_as "magic" "Environment was updated. Run 'source ~/.bashrc' to reload your current shell session"
   fi
 }
 
