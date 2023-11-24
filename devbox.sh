@@ -35,12 +35,11 @@ function print_as() {
   # store $1 as the msgtype
   local msgtype=$1
 
-  # use sed to highlight single quoted substrings in $2 and store as msg
-  local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
-
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
 
+  # use sed to highlight single quoted substrings in $2 and store as msg
+  local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/\('[^']*'\)/\${blue}\1\${reset}\${color}/g")")
 
   if [ "${msgtype}" -eq "prompt" ]; then
     nl=""
