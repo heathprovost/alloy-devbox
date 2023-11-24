@@ -40,7 +40,7 @@ function print_as() {
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
 
-  printf "${glyph}${color}$msg${reset}"
+  printf "${glyph}${color}${msg}${reset}"
 }
 
 #
