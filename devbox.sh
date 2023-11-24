@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #
-# prints a message to the console. Each type displays using a custom glyph and/or color
+# prints a message to the console. Each type is display using a custom glyph and/or color
 #
 # @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "link"
 # @param string $2 - variable arguments passed on to printf
 #
-function printf_of_type() {
+function print_as() {
   local red='\033[0;31m'
   local green='\033[0;32m'
   local yellow='\033[0;33m'
@@ -53,7 +53,7 @@ function log() {
 function resolve_sudo() {
   if [ -n "$SUDO_USER" ]; then
     # user is sudo'd
-    printf_of_type "error" "This script must be restarted *without* using sudo.\n"
+    print_as "error" "This script must be restarted *without* using sudo.\n"
     exit 1
   else
     # validate sudo session (prompting for password if necessary)
@@ -262,15 +262,15 @@ function execute_and_wait() {
   exitCode=$?
 
   if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
-    printf_of_type "success" "Installing $1\n"
+    print_as "success" "Installing $1\n"
     if [ "$exitCode" -eq "90" ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
       ENV_UPDATED=true
     fi
   elif [ "$exitCode" -eq "65" ]; then
-    printf_of_type "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
+    print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
   else
-    printf_of_type "failed" "Installing $1\n"
+    print_as "failed" "Installing $1\n"
   fi
   
   # Restore the cursor
@@ -301,17 +301,17 @@ function configure() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    printf_of_type "info" "Using existing '~/.devboxrc' file for configuration.\n\n"
+    print_as "info" "Using existing '~/.devboxrc' file for configuration.\n\n"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-    printf_of_type "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use.\n\n"
-    printf_of_type "prompt" "Enter your full name for git configuration: "
+    print_as "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use.\n\n"
+    print_as "prompt" "Enter your full name for git configuration: "
     read name
-    printf_of_type "prompt" "Enter your email for git configuration: "
+    print_as "prompt" "Enter your email for git configuration: "
     read email
-    printf_of_type "prompt" "Enter your github package token for npm configuration: "
+    print_as "prompt" "Enter your github package token for npm configuration: "
     read token
     printf "\n"
   fi
@@ -338,9 +338,9 @@ function configure() {
 # Print messages upon completion
 #
 function completion_report() {
-  printf_of_type "success" "Done!\n\n"
+  print_as "success" "Done!\n\n"
   if [ "$ENV_UPDATED" = true ]; then
-    printf_of_type "info" "Environment has been updated. Run 'source ~/.bashrc' to reload your current shell session\n"
+    print_as "info" "Environment has been updated. Run 'source ~/.bashrc' to reload your current shell session\n"
   fi
 }
 
