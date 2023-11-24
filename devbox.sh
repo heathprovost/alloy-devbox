@@ -2,6 +2,7 @@
 
 #
 # prints a message to the console. Each type is display using a custom glyph and/or color
+# single quoted substrings are highlighted in blue when detected
 #
 # @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "link"
 # @param string $2 - variable arguments passed on to printf
