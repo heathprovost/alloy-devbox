@@ -1,13 +1,49 @@
 #!/bin/bash
 
-# constants
-CHECK_SYMBOL='\u2713'
-X_SYMBOL='\u2A2F'
-ANSI_RED='\e[31m'
-ANSI_BLUE='\e[34m'
-ANSI_GREEN='\e[32m'
-ANSI_YELLOW='\e[33m'
-ANSI_NC='\e[39m'
+#
+# works exactly like printf but the 1st parameter specifies a message type 
+# that adds a custom glyph and color coding specific to that type
+#
+# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", or one of the supported colors
+# @param string $2 $3 $4 ... - variable arguments passed on to printf
+#
+function printf_of_type() {
+  local red='\033[0;31m'
+  local green='\033[0;32m'
+  local yellow='\033[0;33m'
+  local blue='\033[0;34m'
+  local purple='\033[0;35m'
+  local cyan='\033[0;36m'
+  local default='\033[0;39m'
+  local reset='\033[0m'
+  local success_glyph="${green}✔${reset}"
+  local success_color="$default"
+  local skipped_glyph="${blue}✘${reset}"
+  local skipped_color="$default"
+  local failed_glyph="${red}✘${reset}"
+  local failed_color="$default"
+  local error_glyph="${red}✘${reset}"
+  local error_color="$red"
+  local info_glyph="${yellow}✨${reset}"
+  local info_color="$yellow"
+  local prompt_glyph=""
+  local prompt_color="$blue"
+
+  local msgtype="$1"
+  shift
+
+  local glyph="${msgtype}_glyph "
+  local color="${msgtype}_color"
+
+  printf "${glyph}${color}$1${reset}" "$@"
+}
+
+#
+# log to log file
+#
+function log() {
+  printf "$@" &>> "/var/log/devbox.log"
+}
 
 #
 # ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
@@ -15,7 +51,7 @@ ANSI_NC='\e[39m'
 function resolve_sudo() {
   if [ -n "$SUDO_USER" ]; then
     # user is sudo'd
-    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} This script must be restarted *without* using sudo.\n"
+    printf_of_type "error" "This script must be restarted *without* using sudo.\n"
     exit 1
   else
     # validate sudo session (prompting for password if necessary)
@@ -70,7 +106,7 @@ function install_git() {
     git config --global user.name "${GIT_USER_NAME}"
     git config --global user.email "${GIT_USER_EMAIL}"
   else
-    echo "GIT_USER_NAME and GIT_USER_EMAIL not set, skipping"
+    log "GIT_USER_NAME and GIT_USER_EMAIL not set, skipping"
   fi
 }
 
@@ -109,7 +145,7 @@ function install_node () {
   if [ -n "${GIT_HUB_PKG_TOKEN}" ]; then
     printf "//npm.pkg.github.com/:_authToken=${GIT_HUB_PKG_TOKEN}\n@stullerinc:registry=https://npm.pkg.github.com" > "$HOME/.npmrc"
   else
-    echo "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
+    log "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
   fi
   if [ $env_updated = true ]; then
     exit 90
@@ -198,16 +234,14 @@ function execute_and_wait() {
 
   frames=('\u280B' '\u2819' '\u2839' '\u2838' '\u283C' '\u2834' '\u2826' '\u2827' '\u2807' '\u280F')
 
-  echo "$pid" >"/tmp/.spinner.pid"
-
   # Hide the cursor, it looks ugly :D
   tput civis
   index=0
   framesCount=${#frames[@]}
 
-  printf "===================================\n$1\n===================================\n" &>> "/var/log/devbox.log"
+  log "===================================\n$1\n===================================\n"
   while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-    printf "${ANSI_BLUE}${frames[$index]}${ANSI_NC} Installing $1"
+    printf_of_type "default" "%s Installing %s" "$(printf_of_type "blue" "${frames[$index]}")" "$1"
 
     let index=index+1
     if [ "$index" -ge "$framesCount" ]; then
@@ -226,15 +260,15 @@ function execute_and_wait() {
   exitCode=$?
 
   if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
-    printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Installing $1\n"
+    printf_of_type "success" "Installing $1\n"
     if [ "$exitCode" -eq "90" ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
       ENV_UPDATED=true
     fi
   elif [ "$exitCode" -eq "65" ]; then
-    printf "${ANSI_BLUE}${X_SYMBOL}${ANSI_NC} Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
+    printf_of_type "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
   else
-    printf "${ANSI_RED}${X_SYMBOL}${ANSI_NC} Installing $1\n"
+    printf_of_type "failed" "Installing $1\n"
   fi
   
   # Restore the cursor
@@ -244,7 +278,7 @@ function execute_and_wait() {
 #
 # return its argument with leading and trailing space trimmed
 #
-trim() {
+function trim() {
   local var="$*"
   # remove leading whitespace characters
   var="${var#"${var%%[![:space:]]*}"}"
@@ -254,26 +288,28 @@ trim() {
 }
 
 #
-# Execute a series of installers sequentially and report results
+# Collects configuration options, either by prompting user or reading them from .devboxrc file
 #
-function setup() {
+function configure() {
   local name
   local email
   local token
 
+  local logfile="/var/log/devbox.log"
+
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    printf "✨ ${ANSI_YELLOW}Using existing ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} file for configuration.${ANSI_NC}\n\n"
+    printf_of_type "info" "Using existing %s file for configuration.\n\n" "$(printf_of_type "blue" "~/.devboxrc"")"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-  printf "✨ ${ANSI_YELLOW}Prompting for required configuration. Responses will be saved in ${ANSI_BLUE}~/.devboxrc${ANSI_YELLOW} for future use.${ANSI_NC}\n\n"
-    printf "${ANSI_BLUE}Enter your full name for git configuration: ${ANSI_NC}"
+    printf_of_type "info" "Prompting for required configuration. Responses will be saved in %s for future use.\n\n" "$(printf_of_type "blue" "'~/.devboxrc'")"
+    printf_of_type "prompt" "Enter your full name for git configuration: "
     read name
-    printf "${ANSI_BLUE}Enter your email for git configuration: ${ANSI_NC}"
+    printf_of_type "prompt" "Enter your email for git configuration: "
     read email
-    printf "${ANSI_BLUE}Enter your github package token for npm configuration: ${ANSI_NC}"
+    printf_of_type "prompt" "Enter your github package token for npm configuration: "
     read token
     printf "\n"
   fi
@@ -287,13 +323,31 @@ function setup() {
   printf "name = $GIT_USER_NAME\nemail = $GIT_USER_EMAIL\ntoken = $GIT_HUB_PKG_TOKEN\n" > "$HOME/.devboxrc"
 
   # delete setup.log if it exists
-  if [ -f "/var/log/devbox.log" ]; then
-    sudo rm -f "/var/log/devbox.log"
+  if [ -f "$logfile" ]; then
+    sudo rm -f "$logfile"
   fi
 
   # create log file and make current user owner
-  sudo touch "/var/log/devbox.log"
-  sudo chown "$USER:" "/var/log/devbox.log"
+  sudo touch "$logfile"
+  sudo chown "$USER:" "$logfile"
+}
+
+#
+# Print messages upon completion
+#
+function completion_report() {
+  printf_of_type "success" "Done!\n\n"
+  if [ "$ENV_UPDATED" = true ]; then
+    printf_of_type "info" "Environment has been updated. Run %s to reload your current shell session\n" "$(printf_of_type "blue" "'source ~/.bashrc'")"
+  fi
+}
+
+#
+# Execute a series of installers sequentially and report results
+#
+function setup() {
+  # configure options
+  configure
 
   # run installers
   execute_and_wait 'common_packages'
@@ -305,10 +359,8 @@ function setup() {
   execute_and_wait 'cypress_deps'
   execute_and_wait 'meteor_deps'
 
-  printf "${ANSI_GREEN}${CHECK_SYMBOL}${ANSI_NC} Done!\n\n"
-  if [ "$ENV_UPDATED" = true ]; then
-    printf "✨ ${ANSI_YELLOW}Environment has been updated. Run ${ANSI_BLUE}'source ~/.bashrc'${ANSI_YELLOW} to reload your current shell session${ANSI_NC}\n"
-  fi
+  # show completion report
+  completion_report
 }
 
 resolve_sudo
