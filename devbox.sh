@@ -1,6 +1,27 @@
 #!/bin/bash
 
 #
+# ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
+#
+function resolve_sudo() {
+  if [ -n "$SUDO_USER" ]; then
+    # user is sudo'd
+    print_as "error" "This script must be run *without* using sudo."
+    exit 1
+  else
+    # validate sudo session (prompting for password if necessary)
+    (sudo -n true 2> /dev/null)
+    local sudo_session_ok=$?
+    if [ "$sudo_session_ok" != "0" ]; then
+      sudo -v 
+      if [ $? != 0 ] ; then 
+        exit 1
+      fi
+    fi
+  fi
+}
+
+#
 # prints a message to the console. Each type is display using a custom glyph and/or color
 # single quoted substrings are highlighted in blue when detected
 #
@@ -53,27 +74,6 @@ function print_as() {
 #
 function log() {
   printf "$@" &>> "/var/log/devbox.log"
-}
-
-#
-# ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
-#
-function resolve_sudo() {
-  if [ -n "$SUDO_USER" ]; then
-    # user is sudo'd
-    print_as "error" "This script must be restarted *without* using sudo."
-    exit 1
-  else
-    # validate sudo session (prompting for password if necessary)
-    (sudo -n true 2> /dev/null)
-    local sudo_session_ok=$?
-    if [ "$sudo_session_ok" != "0" ]; then
-      sudo -v 
-      if [ $? != 0 ] ; then 
-        exit 1
-      fi
-    fi
-  fi
 }
 
 #
