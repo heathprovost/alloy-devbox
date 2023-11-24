@@ -5,7 +5,7 @@
 # single quoted substrings are highlighted in blue when detected
 #
 # @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "link"
-# @param string $2 - variable arguments passed on to printf
+# @param string $2 - the message to print
 #
 function print_as() {
   local red='\033[0;31m'
@@ -30,17 +30,23 @@ function print_as() {
   local prompt_color="$blue"
   local link_glyph=""
   local link_color="$blue"
+  local nl="\n"
 
   # store $1 as the msgtype
   local msgtype=$1
 
   # use sed to highlight single quoted substrings in $2 and store as msg
-  local msg=$(echo -e -n "$(echo -e -n "$2" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
+  local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
 
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
 
-  printf "${glyph}${color}${msg}${reset}"
+
+  if [ "${msgtype}" -eq "prompt" ]; then
+    nl=""
+  fi
+
+  printf "${glyph}${color}${msg}${reset}${nl}"
 }
 
 #
@@ -56,7 +62,7 @@ function log() {
 function resolve_sudo() {
   if [ -n "$SUDO_USER" ]; then
     # user is sudo'd
-    print_as "error" "This script must be restarted *without* using sudo.\n"
+    print_as "error" "This script must be restarted *without* using sudo."
     exit 1
   else
     # validate sudo session (prompting for password if necessary)
@@ -265,15 +271,15 @@ function execute_and_wait() {
   exitCode=$?
 
   if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
-    print_as "success" "Installing $1\n"
+    print_as "success" "Installing $1"
     if [ "$exitCode" -eq "90" ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
       ENV_UPDATED=true
     fi
   elif [ "$exitCode" -eq "65" ]; then
-    print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)\n"
+    print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)"
   else
-    print_as "failed" "Installing $1\n"
+    print_as "failed" "Installing $1"
   fi
   
   # Restore the cursor
@@ -304,12 +310,13 @@ function configure() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    print_as "info" "Using existing '~/.devboxrc' file for configuration.\n\n"
+    print_as "info" "Using existing '~/.devboxrc' file for configuration."
+    printf "\n"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-    print_as "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use.\n\n"
+    print_as "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use."
     print_as "prompt" "Enter your full name for git configuration: "
     read name
     print_as "prompt" "Enter your email for git configuration: "
@@ -341,9 +348,10 @@ function configure() {
 # Print messages upon completion
 #
 function completion_report() {
-  print_as "success" "Done!\n\n"
+  print_as "success" "Done!"
+  printf "\n"
   if [ "$ENV_UPDATED" = true ]; then
-    print_as "info" "Environment has been updated. Run 'source ~/.bashrc' to reload your current shell session\n"
+    print_as "info" "Environment has been updated. Run 'source ~/.bashrc' to reload your current shell session"
   fi
 }
 
