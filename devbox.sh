@@ -30,7 +30,7 @@ function printf_of_type() {
   local link_glyph=""
   local link_color="$blue"
 
-  # single quoted substrings will be treated as command examples and displayed in blue
+  # single quoted substrings will be treated as highlighted text and displayed in blue
   # anything starting with http(s):// will be treated as a link and displayed in cyan
   local msgtype=$(echo "$1" | sed -e -r "s/('[^']*')/${blue}\1${reset}/g" | sed -e -r "s/(https?:\/\/[^ <]*)/${cyan}\1${reset}/g") 
   shift
