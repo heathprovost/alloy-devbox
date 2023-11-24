@@ -1,11 +1,10 @@
 #!/bin/bash
 
 #
-# works exactly like printf but the 1st parameter specifies a message type 
-# that adds a custom glyph and color coding specific to that type
+# prints a message to the console. Each type displays using a custom glyph and/or color
 #
-# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "link" or one of the supported colors
-# @param string $2 $3 $4 ... - variable arguments passed on to printf
+# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "link"
+# @param string $2 - variable arguments passed on to printf
 #
 function printf_of_type() {
   local red='\033[0;31m'
@@ -37,11 +36,7 @@ function printf_of_type() {
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
 
-  if [ $# -gt 1 ]; then
-    printf "${glyph}${color}$1${reset}" "$@"
-  else
-    printf "${glyph}${color}$1${reset}"
-  fi
+  printf "${glyph}${color}$1${reset}" "$@"
 }
 
 #
@@ -305,12 +300,12 @@ function configure() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    printf_of_type "info" "Using existing %s file for configuration.\n\n" "$(printf_of_type "link" "'~/.devboxrc'")"
+    printf_of_type "info" "Using existing '~/.devboxrc' file for configuration.\n\n"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-    printf_of_type "info" "Prompting for required configuration. Responses will be saved in %s for future use.\n\n" "$(printf_of_type "link" "'~/.devboxrc'")"
+    printf_of_type "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use.\n\n"
     printf_of_type "prompt" "Enter your full name for git configuration: "
     read name
     printf_of_type "prompt" "Enter your email for git configuration: "
@@ -344,7 +339,7 @@ function configure() {
 function completion_report() {
   printf_of_type "success" "Done!\n\n"
   if [ "$ENV_UPDATED" = true ]; then
-    printf_of_type "info" "Environment has been updated. Run %s to reload your current shell session\n" "$(printf_of_type "link" "'source ~/.bashrc'")"
+    printf_of_type "info" "Environment has been updated. Run 'source ~/.bashrc' to reload your current shell session\n"
   fi
 }
 
