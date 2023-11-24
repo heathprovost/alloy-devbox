@@ -37,7 +37,11 @@ function printf_of_type() {
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
 
-  printf "${glyph}${color}$1${reset}" "$@"
+  if [ $# -gt 1 ]; then
+    printf "${glyph}${color}$1${reset}" "$@"
+  else
+    printf "${glyph}${color}$1${reset}"
+  fi
 }
 
 #
