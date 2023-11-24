@@ -24,11 +24,11 @@ function print_as() {
   local failed_color="$default"
   local error_glyph="${red}✗${reset} "
   local error_color="$red"
-  local info_glyph="${yellow}✨${reset} "
+  local info_glyph="✨ "
   local info_color="$yellow"
   local prompt_glyph=""
   local prompt_color="$blue"
-  local magic_glyph="🪄"
+  local magic_glyph="🪄 "
   local magic_color="$cyan"
   local nl="\n"
 
