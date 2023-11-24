@@ -309,13 +309,13 @@ function configure() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    print_as "info" "Using existing '~/.devboxrc' file for configuration."
+    print_as "magic" "Using existing '~/.devboxrc' file for configuration."
     printf "\n"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-    print_as "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use."
+    print_as "magic" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use."
     print_as "prompt" "Enter your full name for git configuration: "
     read name
     print_as "prompt" "Enter your email for git configuration: "
@@ -350,7 +350,7 @@ function completion_report() {
   print_as "success" "Done!"
   printf "\n"
   if [ "$ENV_UPDATED" = true ]; then
-    print_as "magic" "Environment was updated. Run 'source ~/.bashrc' to reload your current shell session"
+    print_as "info" "Environment was updated. Run 'source ~/.bashrc' to reload your current shell session"
   fi
 }
 
