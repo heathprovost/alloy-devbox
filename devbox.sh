@@ -32,8 +32,8 @@ function printf_of_type() {
   local msgtype="$1"
   shift
 
-  local glyph="${msgtype}_glyph "
-  local color="${msgtype}_color"
+  declare -n glyph="${msgtype}_glyph "
+  declare -n color="${msgtype}_color"
 
   printf "${glyph}${color}$1${reset}" "$@"
 }
