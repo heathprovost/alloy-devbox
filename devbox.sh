@@ -49,7 +49,7 @@ function print_as() {
   local info_color="$yellow"
   local prompt_glyph=""
   local prompt_color="$blue"
-  local magic_glyph="🧙‍♂️ "
+  local magic_glyph="🧙 "
   local magic_color="$cyan"
   local nl="\n"
 
