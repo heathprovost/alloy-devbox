@@ -35,7 +35,7 @@ function print_as() {
   local msgtype=$1
 
   # use sed to highlight single quoted substrings in $2 and store as msg
-  local msg=$(echo -e "$(echo "$2" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
+  local msg=$(echo -e -n "$(echo -n "$2" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
 
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
