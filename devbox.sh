@@ -244,7 +244,7 @@ function execute_and_wait() {
 
   log "===================================\n$1\n===================================\n"
   while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-    printf "${ANSI_BLUE}${frames[$index]}${ANSI_NC} Installing $1"
+    printf "\033[0;34m${frames[$index]}\033[0m Installing $1"
 
     let index=index+1
     if [ "$index" -ge "$framesCount" ]; then
