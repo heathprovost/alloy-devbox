@@ -31,7 +31,7 @@ function print_as() {
   local link_color="$blue"
 
   # single quoted substrings will be treated as highlighted text and displayed in blue
-  local msgtype=$(echo "$1" | sed -e "s/\('[^']*'\)/\\033[0;34m\1\\033[0m/g")
+  local msgtype=$(echo -e "$(echo "$1" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
   shift
 
   declare -n glyph="${msgtype}_glyph"
