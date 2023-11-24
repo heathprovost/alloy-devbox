@@ -31,18 +31,16 @@ function print_as() {
   local link_glyph=""
   local link_color="$blue"
 
-  # store $1 as the msgtype and shift it out
+  # store $1 as the msgtype
   local msgtype=$1
-  shift
 
-  # use sed to highlight single quoted substrings and store as msg and shit it out
-  local msg=$(echo -e "$(echo "$1" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
-  shift
+  # use sed to highlight single quoted substrings in $2 and store as msg
+  local msg=$(echo -e "$(echo "$2" | sed -e "s/\('[^']*'\)/\\\033[0;34m\1\\\033[0m/g")")
 
   declare -n glyph="${msgtype}_glyph"
   declare -n color="${msgtype}_color"
 
-  printf "${glyph}${color}$msg${reset}" "$@"
+  printf "${glyph}${color}$msg${reset}"
 }
 
 #
