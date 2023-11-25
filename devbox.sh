@@ -6,7 +6,7 @@
 function resolve_sudo() {
   if [ -n "$SUDO_USER" ]; then
     # user is sudo'd
-    print_as "error" "This script must be run *without* using sudo."
+    print_as "error" "This script must be run without using sudo."
     exit 1
   else
     # validate sudo session (prompting for password if necessary)
