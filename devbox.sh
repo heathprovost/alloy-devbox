@@ -268,6 +268,7 @@ function execute_and_wait() {
     # Wait the command to be finished, this is needed to capture its exit status
     #
     wait $pid
+    log "***wait completed with exit code: $?"
     exit $?
   )
 
