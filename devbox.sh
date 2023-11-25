@@ -320,11 +320,11 @@ function configure() {
   else
     print_as "magic" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use."
     printf "\n"
-    print_as "prompt" "Full name for git configuration: "
+    print_as "prompt" "Full name for git config: "
     read name
-    print_as "prompt" "Email address for git configuration: "
+    print_as "prompt" "Email address for git config: "
     read email
-    print_as "prompt" "Github token for npm configuration: "
+    print_as "prompt" "Github token for .npmrc: "
     read token
     printf "\n"
   fi
