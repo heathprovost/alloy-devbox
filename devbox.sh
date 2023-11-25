@@ -238,7 +238,7 @@ function install_meteor_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  eval install_$1 &>> "/var/log/devbox.log" 2>&1 & disown
+  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
   pid=$!
   delay=0.05
 
@@ -266,16 +266,16 @@ function execute_and_wait() {
   #
   # Wait the command to be finished, this is needed to capture its exit status
   #
-  wait $!
+  wait $! 2>/dev/null
   exitCode=$?
 
-  if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
+  if [ "$exitCode" -eq 0 ] || [ "$exitCode" -eq "90" ]; then
     print_as "success" "Installing $1"
-    if [ "$exitCode" -eq "90" ]; then
+    if [ "$exitCode" -eq 90 ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
       ENV_UPDATED=true
     fi
-  elif [ "$exitCode" -eq "65" ]; then
+  elif [ "$exitCode" -eq 65 ]; then
     print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)"
   else
     print_as "failed" "Installing $1"
