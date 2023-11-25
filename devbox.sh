@@ -238,7 +238,7 @@ function install_meteor_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
+  eval install_$1 &>> "/var/log/devbox.log" 2>&1 & disown
   pid=$!
   delay=0.05
 
