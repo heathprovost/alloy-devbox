@@ -238,6 +238,7 @@ function install_meteor_deps() {
 #
 function execute_and_wait() {
   (
+    log "===================================\n$1\n===================================\n"
     eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
     pid=$!
     delay=0.05
@@ -249,7 +250,6 @@ function execute_and_wait() {
     index=0
     framesCount=${#frames[@]}
 
-    log "===================================\n$1\n===================================\n"
     while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
       printf "\033[0;34m${frames[$index]}\033[0m Installing $1"
 
