@@ -186,7 +186,7 @@ function install_dotnet_sdk() {
   curl -fsSL  https://dot.net/v1/dotnet-install.sh | bash -s -- --version $dotnet_version
 
   # append exports to .bashrc if needed
-  if ! grep -qc '$HOME/.dotnet' "$HOME/.bashrc"; then
+  if ! grep -qc '# dotnet exports' "$HOME/.bashrc"; then
     printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport DOTNET_CLI_TELEMETRY_OPTOUT=1\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
     env_updated="true"
   fi
