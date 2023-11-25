@@ -128,13 +128,13 @@ function install_node () {
   sudo apt-get -y install make gcc g++ python3-minimal
 
   # set node version
-  NODE_VERSION='18'
-  NVM_VERSION='v0.39.5'
+  local node_version='18'
+  local nvm_version='v0.39.5'
 
   # if nvm is not already installed install it
   if [ ! -d "${HOME}/.nvm/.git" ]; then
     # download and run install script directly from nvm github repo
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$nvm_version/install.sh | bash
     env_updated="true"
   fi
 
@@ -143,8 +143,8 @@ function install_node () {
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
   # use nvm to install the specified version of node and make it default
-  nvm install $NODE_VERSION
-  nvm use $NODE_VERSION
+  nvm install $node_version
+  nvm use $node_version
 
   # install nawsso globally
   npm install -g @heathprovost/nawsso
@@ -204,7 +204,7 @@ function install_dotnet_sdk() {
 #
 function install_aws_cli() {
   # get the architecture id for the machine this script is running on
-  arch=$(uname -m)
+  local arch=$(uname -m)
 
   # download and install aws-cli v2 for current arch (aarch64 or x86_64 are supported by AWS)
   curl "https://awscli.amazonaws.com/awscli-exe-linux-${arch}.zip" -o "awscliv2.zip"
@@ -240,15 +240,15 @@ function execute_and_wait() {
   (
     log "===================================\n$1\n===================================\n"
     eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
-    pid=$!
-    delay=0.05
+    local pid=$!
+    local delay=0.05
 
-    frames=('\u280B' '\u2819' '\u2839' '\u2838' '\u283C' '\u2834' '\u2826' '\u2827' '\u2807' '\u280F')
+    local frames=('\u280B' '\u2819' '\u2839' '\u2838' '\u283C' '\u2834' '\u2826' '\u2827' '\u2807' '\u280F')
 
     # Hide the cursor, it looks ugly :D
     tput civis
-    index=0
-    framesCount=${#frames[@]}
+    local index=0
+    local framesCount=${#frames[@]}
 
     while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
       printf "\033[0;34m${frames[$index]}\033[0m Installing $1"
@@ -267,7 +267,7 @@ function execute_and_wait() {
     # Wait the command to be finished, this is needed to capture its exit status
     #
     wait $pid
-    exit_code=$?
+    local exit_code=$?
     exit $exit_code
   )
 
@@ -312,6 +312,8 @@ function configure() {
   local token
 
   local logfile="/var/log/devbox.log"
+
+  ENV_UPDATED="false"
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
