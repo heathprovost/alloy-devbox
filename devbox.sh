@@ -140,8 +140,7 @@ function install_node () {
 
   # update current shell with exports needed to run nvm commands
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
   # use nvm to install the specified version of node and make it default
   nvm install $NODE_VERSION
@@ -268,8 +267,8 @@ function execute_and_wait() {
     # Wait the command to be finished, this is needed to capture its exit status
     #
     wait $pid
-    log "Wait $pid completed with exit code: $?"
-    exit $?
+    exit_code=$?
+    exit $exit_code
   )
 
   local exit_code=$?
