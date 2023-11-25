@@ -238,7 +238,8 @@ function install_meteor_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  { eval install_$1 &>> "/var/log/devbox.log" & } 2>/dev/null
+  set +m
+  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
   pid=$!
   delay=0.05
 
@@ -266,8 +267,10 @@ function execute_and_wait() {
   #
   # Wait the command to be finished, this is needed to capture its exit status
   #
-  wait $! 2>/dev/null
+  wait $!
   exitCode=$?
+
+  set -m
 
   if [ "$exitCode" -eq 0 ] || [ "$exitCode" -eq "90" ]; then
     print_as "success" "Installing $1"
