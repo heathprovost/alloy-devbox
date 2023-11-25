@@ -33,7 +33,6 @@ function print_as() {
   local green='\033[0;32m'
   local yellow='\033[0;33m'
   local blue='\033[0;34m'
-  local purple='\033[0;35m'
   local cyan='\033[0;36m'
   local default='\033[0;39m'
   local reset='\033[0m'
@@ -48,7 +47,7 @@ function print_as() {
   local info_glyph="💡 "
   local info_color="$yellow"
   local prompt_glyph=""
-  local prompt_color="$purple"
+  local prompt_color="$cyan"
   local magic_glyph="🧙 "
   local magic_color="$cyan"
   local nl="\n"
