@@ -72,7 +72,7 @@ function print_as() {
 # log to log file
 #
 function log() {
-  printf "$@" &>> "/var/log/devbox.log"
+  printf "$@\n" &>> "/var/log/devbox.log"
 }
 
 #
