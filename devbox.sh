@@ -350,7 +350,7 @@ function completion_report() {
   print_as "success" "Done!"
   printf "\n"
   if [ "$ENV_UPDATED" = true ]; then
-    print_as "info" "Environment was updated. Run 'source ~/.bashrc' to reload your current shell session"
+    print_as "info" "Environment was updated. Run 'source ~/.bashrc' to reload in your current shell."
   fi
 }
 
