@@ -272,6 +272,8 @@ function execute_and_wait() {
 
   exitCode=$?
 
+  echo "Install function completed with exit code: $exitCode"
+
   if [ $exitCode -eq 0 ] || [ $exitCode -eq 90 ]; then
     print_as "success" "Installing $1"
     if [ $exitCode -eq 90 ]; then
