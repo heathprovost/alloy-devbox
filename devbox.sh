@@ -13,8 +13,8 @@ function resolve_sudo() {
     (sudo -n true 2> /dev/null)
     local sudo_session_ok=$?
     if [ "$sudo_session_ok" != "0" ]; then
-      sudo -v 
-      if [ $? != 0 ] ; then 
+      sudo -v
+      if [ $? != 0 ] ; then
         exit 1
       fi
     fi
@@ -158,7 +158,7 @@ function install_node () {
   fi
   if [ "$env_updated" = "true" ]; then
     exit 90
-  fi  
+  fi
 }
 
 #
@@ -283,7 +283,7 @@ function execute_and_wait() {
   else
     print_as "failed" "Installing $1"
   fi
-  
+
   # Restore the cursor
   tput cnorm
 }
