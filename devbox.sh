@@ -157,7 +157,7 @@ function install_node () {
   else
     log "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
   fi
-  if [ $env_updated = true ]; then
+  if [ "$env_updated" = true ]; then
     exit 90
   fi  
 }
@@ -195,7 +195,7 @@ function install_dotnet_sdk() {
   export DOTNET_ROOT="$HOME/.dotnet"
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
-  if [ $env_updated = true ]; then
+  if [ "$env_updated" = true ]; then
     exit 90
   fi
 }
