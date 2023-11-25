@@ -278,7 +278,7 @@ function execute_and_wait() {
   if [ $exit_code -eq 0 ] || [ $exit_code -eq 90 ]; then
     print_as "success" "Installing $1"
     if [ $exit_code -eq 90 ]; then
-      # 90 means environment will need to be reloaded, so this still successful frun
+      # 90 means environment will need to be reloaded, so this still successful run. Just set flag to output correct message later
       ENV_UPDATED="true"
     fi
   elif [ $exit_code -eq 65 ]; then
