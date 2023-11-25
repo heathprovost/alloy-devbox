@@ -136,7 +136,7 @@ function install_node () {
   if [ ! -d "${HOME}/.nvm/.git" ]; then
     # download and run install script directly from nvm github repo
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
-    env_updated=true
+    env_updated="true"
   fi
 
   # update current shell with exports needed to run nvm commands
@@ -157,7 +157,7 @@ function install_node () {
   else
     log "GIT_HUB_PKG_TOKEN not set, skipping .npmrc generation"
   fi
-  if [ "$env_updated" = true ]; then
+  if [ "$env_updated" = "true" ]; then
     exit 90
   fi  
 }
@@ -188,7 +188,7 @@ function install_dotnet_sdk() {
   # append exports to .bashrc if needed
   if ! grep -qc '$HOME/.dotnet' "$HOME/.bashrc"; then
     printf '\n# dotnet exports\nexport DOTNET_ROOT="$HOME/.dotnet"\nexport DOTNET_CLI_TELEMETRY_OPTOUT=1\nexport PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools\n' >> "$HOME/.bashrc"
-    env_updated=true
+    env_updated="true"
   fi
 
   # update current shell with exports needed to run dotnet commands
@@ -196,7 +196,7 @@ function install_dotnet_sdk() {
   export DOTNET_CLI_TELEMETRY_OPTOUT=1
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
-  if [ "$env_updated" = true ]; then
+  if [ "$env_updated" = "true" ]; then
     exit 90
   fi
 }
@@ -273,13 +273,13 @@ function execute_and_wait() {
 
   set -m
 
-  if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
+  if [ "$exitCode" = "0" ] || [ "$exitCode" -eq "90" ]; then
     print_as "success" "Installing $1"
-    if [ "$exitCode" -eq "90" ]; then
+    if [ "$exitCode" = "90" ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
-      ENV_UPDATED=true
+      ENV_UPDATED="true"
     fi
-  elif [ "$exitCode" -eq "65" ]; then
+  elif [ "$exitCode" = "65" ]; then
     print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)"
   else
     print_as "failed" "Installing $1"
@@ -354,7 +354,7 @@ function configure() {
 function completion_report() {
   print_as "success" "Done!"
   printf "\n"
-  if [ "$ENV_UPDATED" = true ]; then
+  if [ "$ENV_UPDATED" = "true" ]; then
     print_as "info" "Environment was updated. Run 'source ~/.bashrc' to reload in your current shell."
   fi
 }
