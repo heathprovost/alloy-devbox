@@ -60,7 +60,7 @@ function print_as() {
   declare -n color="${msgtype}_color"
 
   # use sed to highlight single quoted substrings in $2 and store as msg
-  local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/\('[^']*'\)/\\${blue}\1\\${reset}\\${color}/g")")
+  local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/'\([^']*\)'/\\${blue}\1\\${reset}\\${color}/g")")
 
   if [ "$msgtype" = "prompt" ]; then
     nl=''
