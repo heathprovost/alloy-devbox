@@ -272,7 +272,7 @@ function execute_and_wait() {
 
   exitCode=$?
 
-  if [ "$exitCode" = "0" ] || [ "$exitCode" -eq "90" ]; then
+  if [ "$exitCode" = "0" ] || [ "$exitCode" = "90" ]; then
     print_as "success" "Installing $1"
     if [ "$exitCode" = "90" ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
