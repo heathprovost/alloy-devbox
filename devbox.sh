@@ -268,13 +268,13 @@ function execute_and_wait() {
     # Wait the command to be finished, this is needed to capture its exit status
     #
     wait $pid
-    log "***wait completed with exit code: $?"
+    log "Wait $pid completed with exit code: $?"
     exit $?
   )
 
   local exit_code=$?
 
-  log "***Install function completed with exit code: $exit_code"
+  log "Install function completed with exit code: $exit_code"
 
   if [ $exit_code -eq 0 ] || [ $exit_code -eq 90 ]; then
     print_as "success" "Installing $1"
