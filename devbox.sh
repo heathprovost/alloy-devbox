@@ -271,7 +271,7 @@ function execute_and_wait() {
     exit $?
   )
 
-  local exit_code = $?
+  local exit_code=$?
 
   log "***Install function completed with exit code: $exit_code"
 
