@@ -193,6 +193,7 @@ function install_dotnet_sdk() {
 
   # update current shell with exports needed to run dotnet commands
   export DOTNET_ROOT="$HOME/.dotnet"
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
   if [ "$env_updated" = true ]; then
@@ -272,13 +273,13 @@ function execute_and_wait() {
 
   set -m
 
-  if [ "$exitCode" -eq 0 ] || [ "$exitCode" -eq "90" ]; then
+  if [ "$exitCode" -eq "0" ] || [ "$exitCode" -eq "90" ]; then
     print_as "success" "Installing $1"
-    if [ "$exitCode" -eq 90 ]; then
+    if [ "$exitCode" -eq "90" ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
       ENV_UPDATED=true
     fi
-  elif [ "$exitCode" -eq 65 ]; then
+  elif [ "$exitCode" -eq "65" ]; then
     print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)"
   else
     print_as "failed" "Installing $1"
