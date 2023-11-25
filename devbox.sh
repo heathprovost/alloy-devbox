@@ -238,39 +238,39 @@ function install_meteor_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  set +m
-  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
-  pid=$!
-  delay=0.05
+  (
+    eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
+    pid=$!
+    delay=0.05
 
-  frames=('\u280B' '\u2819' '\u2839' '\u2838' '\u283C' '\u2834' '\u2826' '\u2827' '\u2807' '\u280F')
+    frames=('\u280B' '\u2819' '\u2839' '\u2838' '\u283C' '\u2834' '\u2826' '\u2827' '\u2807' '\u280F')
 
-  # Hide the cursor, it looks ugly :D
-  tput civis
-  index=0
-  framesCount=${#frames[@]}
+    # Hide the cursor, it looks ugly :D
+    tput civis
+    index=0
+    framesCount=${#frames[@]}
 
-  log "===================================\n$1\n===================================\n"
-  while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-    printf "\033[0;34m${frames[$index]}\033[0m Installing $1"
+    log "===================================\n$1\n===================================\n"
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+      printf "\033[0;34m${frames[$index]}\033[0m Installing $1"
 
-    let index=index+1
-    if [ "$index" -ge "$framesCount" ]; then
-      index=0
-    fi
+      let index=index+1
+      if [ "$index" -ge "$framesCount" ]; then
+        index=0
+      fi
 
-    printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-    sleep $delay
-  done
+      printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+      sleep $delay
+    done
 
 
-  #
-  # Wait the command to be finished, this is needed to capture its exit status
-  #
-  wait $!
+    #
+    # Wait the command to be finished, this is needed to capture its exit status
+    #
+    wait $!
+  )
+
   exitCode=$?
-
-  set -m
 
   if [ "$exitCode" = "0" ] || [ "$exitCode" -eq "90" ]; then
     print_as "success" "Installing $1"
