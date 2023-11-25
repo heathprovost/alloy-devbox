@@ -268,19 +268,20 @@ function execute_and_wait() {
     # Wait the command to be finished, this is needed to capture its exit status
     #
     wait $!
+    exit $?
   )
 
-  exitCode=$?
+  local exit_code = $?
 
-  log "***Install function completed with exit code: $exitCode"
+  log "***Install function completed with exit code: $exit_code"
 
-  if [ $exitCode -eq 0 ] || [ $exitCode -eq 90 ]; then
+  if [ $exit_code -eq 0 ] || [ $exit_code -eq 90 ]; then
     print_as "success" "Installing $1"
-    if [ $exitCode -eq 90 ]; then
+    if [ $exit_code -eq 90 ]; then
       # 90 means environment will need to be reloaded, so this still successful frun
       ENV_UPDATED="true"
     fi
-  elif [ $exitCode -eq 65 ]; then
+  elif [ $exit_code -eq 65 ]; then
     print_as "skipped" "Installing $1 ... skipped (existing installation detected and upgrade not supported)"
   else
     print_as "failed" "Installing $1"
