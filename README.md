@@ -4,7 +4,7 @@ for [alloy](https://github.com/StullerInc/alloy) development.
 
 ![DevBox Demo](../assets/devbox-demo.gif?raw=true)
 
-## Basic Instructions
+## 🧊 Basic Instructions
 
 Note: *Scroll down for instructions for specific environments*
 
@@ -23,7 +23,7 @@ Running either of the above commands downloads the script and runs it. By defaul
 can create a file called `~/.devboxrc` to provide default responses for unattended installs if you prefer. The first time you run the script
 this file will be created automatically to store your configuration settings for future use.
 
-#### 💠Example ~/.devboxrc
+#### 🔹Example ~/.devboxrc
 
 ```env
 name = Jay Doe
@@ -31,11 +31,11 @@ email = jay_doe@domain.com
 token = ghp_YourGithubTokenForNpmPackageInstalls
 ```
 
-## Windows Using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+## 🧊 Windows Using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 Begin by opening a powershell or cmd session in your terminal application.
 
-#### 💠*Optional: Unregister Ubuntu Distribution*
+#### 🔹*Optional: Unregister Ubuntu Distribution*
 
 If you want to start from scratch with a brand new installation you can run the following command before
 proceeding, but please be aware that ${{\color{red}\textsf{existing files in your current ubuntu installation will be deleted!}}}\$
@@ -44,7 +44,7 @@ proceeding, but please be aware that ${{\color{red}\textsf{existing files in you
 wsl --unregister Ubuntu
 ```
 
-#### 💠Install Ubuntu
+#### 🔹Install Ubuntu
 
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
@@ -60,7 +60,7 @@ or cmd session. Now run this to ensure your new install is set as the default:
 wsl --setdefault Ubuntu
 ```
 
-#### 💠Run DevBox
+#### 🔹Run DevBox
 
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
@@ -68,9 +68,9 @@ Close your terminal and open a **new** bash terminal before running the devbox s
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
-## MacOS Using [OrbStack](https://orbstack.dev)
+## 🧊 MacOS Using [OrbStack](https://orbstack.dev)
 
-#### 💠Install Ubuntu
+#### 🔹Install Ubuntu
 
 This will create an Ubuntu machine called "alloy" and then open an ssh session to it:
 
@@ -78,7 +78,7 @@ This will create an Ubuntu machine called "alloy" and then open an ssh session t
 orb create ubuntu alloy && ssh alloy@orb
 ```
 
-#### 💠Run DevBox
+#### 🔹Run DevBox
 
 Now just run the devbox script.
 
