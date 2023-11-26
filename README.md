@@ -31,7 +31,7 @@ email = jay_doe@domain.com
 token = ghp_YourGithubTokenForNpmPackageInstalls
 ```
 
-## Windows Using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
+## Windows Using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 Begin by opening a powershell or cmd session in your terminal application.
 
