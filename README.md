@@ -4,6 +4,7 @@ for [alloy](https://github.com/StullerInc/alloy) development.
 
 ![DevBox Demo](../assets/devbox-demo.gif?raw=true)
 
+
 ## 🧊 Basic Instructions
 
 Note: *Scroll down for instructions for specific environments*
@@ -30,6 +31,7 @@ name = Jay Doe
 email = jay_doe@domain.com
 token = ghp_YourGithubTokenForNpmPackageInstalls
 ```
+
 
 ## 🧊 Windows Using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
@@ -67,6 +69,7 @@ Close your terminal and open a **new** bash terminal before running the devbox s
 ```shell
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
+
 
 ## 🧊 MacOS Using [OrbStack](https://orbstack.dev)
 
