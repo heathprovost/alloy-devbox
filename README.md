@@ -38,9 +38,7 @@ Begin by opening a powershell or cmd session in your terminal application.
 #### *Optional: Unregister Ubuntu Distribution*
 
 If you want to start from scratch with a brand new installation you can run the following command before
-proceeding, but please be aware that:
-
-$${\color{red}ALL EXISTING FILES IN YOUR CURRENT UBUNTU INSTALLATION WILL BE DELETED}$$
+proceeding, but please be aware that $${\color{red}existing files in your current ubuntu installation will be DELETED}$$
 
 ```shell
 wsl --unregister Ubuntu
