@@ -4,7 +4,9 @@ for [alloy](https://github.com/StullerInc/alloy) development.
 
 ![DevBox Demo](../assets/devbox-demo.gif?raw=true)
 
-## Installation
+## Basic Instructions
+
+Note: *Scroll down for instructions for specific environments*
 
 There are no install dependencies other than your target environment must be running **Ubuntu 22.04 LTS**
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
@@ -21,7 +23,7 @@ Running either of the above commands downloads the script and runs it. By defaul
 can create a file called `~/.devboxrc` to provide default responses for unattended installs if you prefer. The first time you run the script
 this file will be created automatically to store your configuration settings for future use.
 
-#### ~/.devboxrc
+### ~/.devboxrc
 
 ```env
 name = Jay Doe
@@ -29,13 +31,13 @@ email = jay_doe@domain.com
 token = ghp_YourGithubTokenForNpmPackageInstalls
 ```
 
-### Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
+## Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-#### Installing WSL Ubuntu
+### Installing WSL Ubuntu
 
 First open a powershell or cmd session in your terminal application.
 
-**Optional: Performing a Clean Install** 
+#### Optional: Unregister Ubuntu Distribution
 
 If you want to start from scratch with a brand new installation you can run the following command before
 proceeding, but please be aware that **ALL EXISTING FILES IN YOUR CURRENT UBUNTU INSTALLATION WILL BE DELETED**.
@@ -43,6 +45,8 @@ proceeding, but please be aware that **ALL EXISTING FILES IN YOUR CURRENT UBUNTU
 ```shell
 C:\Users\foo> wsl --unregister Ubuntu
 ```
+
+#### Install Ubuntu Distribution
 
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
@@ -57,6 +61,8 @@ or cmd session. Now run this to ensure your new install is set as the default:
 ```shell
 C:\Users\foo> wsl --setdefault Ubuntu
 ```
+
+#### Run DevBox
 
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
