@@ -43,7 +43,7 @@ proceeding, but please be aware that:
 **ALL EXISTING FILES IN YOUR CURRENT UBUNTU INSTALLATION WILL BE DELETED**
 
 ```shell
-C:\Users\foo> wsl --unregister Ubuntu
+C:\Users\jdoe> wsl --unregister Ubuntu
 ```
 
 #### Install Ubuntu
@@ -51,15 +51,15 @@ C:\Users\foo> wsl --unregister Ubuntu
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
 ```shell
-C:\Users\foo> wsl --update
-C:\Users\foo> wsl --install -d Ubuntu
+C:\Users\jdoe> wsl --update
+C:\Users\jdoe> wsl --install -d Ubuntu
 ```
 
 After this part is done you will be in a bash shell. Type `exit` to return to your original powershell 
 or cmd session. Now run this to ensure your new install is set as the default:
 
 ```shell
-C:\Users\foo> wsl --setdefault Ubuntu
+C:\Users\jdoe> wsl --setdefault Ubuntu
 ```
 
 #### Run DevBox
@@ -75,5 +75,5 @@ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/m
 This will create a machine called "alloy" and setup devbox in it all from a single command.
 
 ```console
-foo@bar:~$ orb create ubuntu alloy && orb -m alloy ./devbox.sh
+jdoe@macintosh:~$ orb create ubuntu alloy && orb -m alloy ./devbox.sh
 ```
