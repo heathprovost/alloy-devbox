@@ -4,7 +4,6 @@ for [alloy](https://github.com/StullerInc/alloy) development.
 
 ![DevBox Demo](../assets/devbox-demo.gif?raw=true)
 
-
 ## 🧊 Basic Instructions
 
 Note: *Scroll down for instructions for specific environments*
@@ -12,11 +11,11 @@ Note: *Scroll down for instructions for specific environments*
 There are no install dependencies other than your target environment must be running **Ubuntu 22.04 LTS**
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
-```shell
+```console
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
-```shell
+```console
 source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
@@ -32,7 +31,6 @@ email = jay_doe@domain.com
 token = ghp_YourGithubTokenForNpmPackageInstalls
 ```
 
-
 ## 🧊 Windows Using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 Begin by opening a powershell or cmd session in your terminal application.
@@ -42,7 +40,7 @@ Begin by opening a powershell or cmd session in your terminal application.
 If you want to start from scratch with a brand new installation you can run the following command before
 proceeding, but please be aware that ${{\color{red}\textsf{existing files in your current ubuntu installation will be deleted!}}}\$
 
-```shell
+```console
 wsl --unregister Ubuntu
 ```
 
@@ -50,7 +48,7 @@ wsl --unregister Ubuntu
 
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
-```shell
+```console
 wsl --update
 wsl --install -d Ubuntu
 ```
@@ -58,7 +56,7 @@ wsl --install -d Ubuntu
 After this part is done you will be in a bash shell. Type `exit` to return to your original powershell 
 or cmd session. Now run this to ensure your new install is set as the default:
 
-```shell
+```console
 wsl --setdefault Ubuntu
 ```
 
@@ -66,10 +64,9 @@ wsl --setdefault Ubuntu
 
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
-```shell
+```console
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
-
 
 ## 🧊 MacOS Using [OrbStack](https://orbstack.dev)
 
@@ -77,7 +74,7 @@ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/m
 
 This will create an Ubuntu machine called "alloy" and then open an ssh session to it:
 
-```shell
+```console
 orb create ubuntu alloy && ssh alloy@orb
 ```
 
@@ -85,6 +82,6 @@ orb create ubuntu alloy && ssh alloy@orb
 
 Now just run the devbox script.
 
-```shell
+```console
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
