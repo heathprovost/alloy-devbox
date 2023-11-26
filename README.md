@@ -11,11 +11,11 @@ Note: *Scroll down for instructions for specific environments*
 There are no install dependencies other than your target environment must be running **Ubuntu 22.04 LTS**
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
-```console
+```sh
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
-```console
+```sh
 source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
@@ -40,7 +40,7 @@ Begin by opening a powershell or cmd session in your terminal application.
 If you want to start from scratch with a brand new installation you can run the following command before
 proceeding, but please be aware that ${{\color{red}\textsf{existing files in your current ubuntu installation will be deleted!}}}\$
 
-```console
+```sh
 wsl --unregister Ubuntu
 ```
 
@@ -48,7 +48,7 @@ wsl --unregister Ubuntu
 
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
-```console
+```sh
 wsl --update
 wsl --install -d Ubuntu
 ```
@@ -56,7 +56,7 @@ wsl --install -d Ubuntu
 After this part is done you will be in a bash shell. Type `exit` to return to your original powershell 
 or cmd session. Now run this to ensure your new install is set as the default:
 
-```console
+```sh
 wsl --setdefault Ubuntu
 ```
 
@@ -64,7 +64,7 @@ wsl --setdefault Ubuntu
 
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
-```console
+```sh
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
@@ -74,7 +74,7 @@ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/m
 
 This will create an Ubuntu machine called "alloy" and then open an ssh session to it:
 
-```console
+```sh
 orb create ubuntu alloy && ssh alloy@orb
 ```
 
@@ -82,6 +82,6 @@ orb create ubuntu alloy && ssh alloy@orb
 
 Now just run the devbox script.
 
-```console
+```sh
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
