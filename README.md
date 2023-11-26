@@ -68,7 +68,7 @@ Close your terminal and open a **new** bash terminal before running the devbox s
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
-### MacOS Using [OrbStack](https://orbstack.dev)
+## MacOS Using [OrbStack](https://orbstack.dev)
 
 #### 💠Install Ubuntu
 
