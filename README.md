@@ -70,7 +70,7 @@ Close your terminal and open a **new** bash terminal before running the devbox s
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
-### MacOS using [orbstack](https://orbstack.dev)
+### MacOS Using [OrbStack](https://orbstack.dev)
 
 This will create a machine called "alloy" and setup devbox in it all from a single command.
 
