@@ -31,22 +31,22 @@ email = jay_doe@domain.com
 token = ghp_YourGithubTokenForNpmPackageInstalls
 ```
 
-## Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
+## Windows Using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-### Installing WSL Ubuntu
+Begin by opening a powershell or cmd session in your terminal application.
 
-First open a powershell or cmd session in your terminal application.
-
-#### Optional: Unregister Ubuntu Distribution
+#### *Optional: Unregister Ubuntu Distribution*
 
 If you want to start from scratch with a brand new installation you can run the following command before
-proceeding, but please be aware that **ALL EXISTING FILES IN YOUR CURRENT UBUNTU INSTALLATION WILL BE DELETED**.
+proceeding, but please be aware that:
+
+**ALL EXISTING FILES IN YOUR CURRENT UBUNTU INSTALLATION WILL BE DELETED**
 
 ```shell
 C:\Users\foo> wsl --unregister Ubuntu
 ```
 
-#### Install Ubuntu Distribution
+#### Install Ubuntu
 
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
