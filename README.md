@@ -67,13 +67,25 @@ C:\Users\jdoe> wsl --setdefault Ubuntu
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
 ```shell
-source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
 ### MacOS Using [OrbStack](https://orbstack.dev)
 
-This will create a machine called "alloy" and setup devbox in it all from a single command.
+#### Install Ubuntu
+
+This will create an Ubuntu machine called "alloy" and then open an ssh session to it:
 
 ```console
-jdoe@macintosh:~$ orb create ubuntu alloy && orb -m alloy ./devbox.sh
+jdoe@macintosh:~$ orb create ubuntu alloy && ssh alloy@orb
 ```
+
+#### Run DevBox
+
+Now just run the devbox script.
+
+```console
+alloy@orb:~$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+```
+
+
