@@ -11,11 +11,11 @@ Note: *Scroll down for instructions for specific environments*
 There are no install dependencies other than your target environment must be running **Ubuntu 22.04 LTS**
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
-```sh
+```console
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
-```sh
+```console
 source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
@@ -64,7 +64,7 @@ wsl --setdefault Ubuntu
 
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
-```sh
+```console
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
