@@ -23,7 +23,7 @@ Running either of the above commands downloads the script and runs it. By defaul
 can create a file called `~/.devboxrc` to provide default responses for unattended installs if you prefer. The first time you run the script
 this file will be created automatically to store your configuration settings for future use.
 
-### ~/.devboxrc
+#### ~/.devboxrc
 
 ```env
 name = Jay Doe
