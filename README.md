@@ -12,11 +12,11 @@ There are no install dependencies other than your target environment must be run
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
 ```console
-~$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 ```console
-~$ source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+$ source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 Running either of the above commands downloads the script and runs it. By default you will be promted to provide a few options, but you 
@@ -65,7 +65,7 @@ or cmd session. Now run this to ensure your new install is set as the default:
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
 ```console
-~$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
 ## 🧊 MacOS Using [OrbStack](https://orbstack.dev)
@@ -75,7 +75,7 @@ Close your terminal and open a **new** bash terminal before running the devbox s
 This will create an Ubuntu machine called "alloy" and then open an ssh session to it:
 
 ```console
-~$ orb create ubuntu alloy && ssh alloy@orb
+$ orb create ubuntu alloy && ssh alloy@orb
 ```
 
 #### 🔹Run DevBox
@@ -83,5 +83,5 @@ This will create an Ubuntu machine called "alloy" and then open an ssh session t
 Now just run the devbox script.
 
 ```console
-foo@bar:~$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
