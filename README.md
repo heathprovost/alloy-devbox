@@ -83,5 +83,5 @@ This will create an Ubuntu machine called "alloy" and then open an ssh session t
 Now just run the devbox script.
 
 ```console
-~$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+foo@bar:~$ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
