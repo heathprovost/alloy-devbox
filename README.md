@@ -40,7 +40,7 @@ Begin by opening a powershell or cmd session in your terminal application.
 If you want to start from scratch with a brand new installation you can run the following command before
 proceeding, but please be aware that ${{\color{red}\textsf{existing files in your current ubuntu installation will be deleted!}}}\$
 
-```sh
+```powershell
 wsl --unregister Ubuntu
 ```
 
@@ -48,7 +48,7 @@ wsl --unregister Ubuntu
 
 Now run the following commands to install using the current Ubuntu LTS distribution:
 
-```sh
+```powershell
 wsl --update
 wsl --install -d Ubuntu
 ```
@@ -56,7 +56,7 @@ wsl --install -d Ubuntu
 After this part is done you will be in a bash shell. Type `exit` to return to your original powershell 
 or cmd session. Now run this to ensure your new install is set as the default:
 
-```sh
+```powershell
 wsl --setdefault Ubuntu
 ```
 
