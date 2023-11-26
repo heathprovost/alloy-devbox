@@ -25,7 +25,7 @@ function resolve_sudo() {
 # prints a message to the console. Each type is display using a custom glyph and/or color
 # single quoted substrings are highlighted in blue when detected
 #
-# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "info", "prompt", "magic"
+# @param string $1 - the message type, one of "success", "skipped", "failed", "error", "important", "prompt", "info"
 # @param string $2 - the message to print
 #
 function print_as() {
@@ -42,14 +42,14 @@ function print_as() {
   local skipped_color="$default"
   local failed_glyph="${red}✗${reset} "
   local failed_color="$default"
-  local error_glyph="💥 "
+  local error_glyph="${red}✗${reset} "
   local error_color="$red"
-  local info_glyph="💡 "
-  local info_color="$yellow"
+  local important_glyph=""
+  local important_color="$yellow"
   local prompt_glyph=""
   local prompt_color="$cyan"
-  local magic_glyph="🧙 "
-  local magic_color="$cyan"
+  local info_glyph=""
+  local info_color="$cyan"
   local nl="\n"
 
   # store $1 as the msgtype
@@ -61,6 +61,7 @@ function print_as() {
   # use sed to highlight single quoted substrings in $2 and store as msg
   local msg=$(echo -n -e "$(echo -e -n "$2" | sed -e "s/'\([^']*\)'/\\${blue}\1\\${reset}\\${color}/g")")
 
+  # for prompts dont emit a linebreak
   if [ "$msgtype" = "prompt" ]; then
     nl=''
   fi
@@ -317,13 +318,13 @@ function configure() {
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
-    print_as "magic" "Using existing '~/.devboxrc' file for configuration."
+    print_as "info" "Using existing '~/.devboxrc' file for configuration."
     printf "\n"
     set -o allexport
     source <(cat "$HOME/.devboxrc" | sed -e '/^#/d;/^\s*$/d' -e "s/'/'\\\''/g" -e "s/=\(.*\)/='\1'/g" -e "s/\s*=\s*/=/g")
     set +o allexport
   else
-    print_as "magic" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use."
+    print_as "info" "Prompting for required configuration. Responses will be saved in '~/.devboxrc' for future use."
     printf "\n"
     print_as "prompt" "Full name for git config: "
     read name
@@ -359,7 +360,7 @@ function completion_report() {
   print_as "success" "Done!"
   printf "\n"
   if [ "$ENV_UPDATED" = "true" ]; then
-    print_as "info" "Environment was updated. Run 'source ~/.bashrc' to reload in your current shell."
+    print_as "important" "Environment was updated. Run 'source ~/.bashrc' to reload in your current shell."
   fi
 }
 

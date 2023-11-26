@@ -6,7 +6,7 @@ for [alloy](https://github.com/StullerInc/alloy) development.
 
 ## Installation
 
-There is no install and there are no dependencies other than your target environment must be running **Ubuntu 22.04 LTS**
+There are no install dependencies other than your target environment must be running **Ubuntu 22.04 LTS**
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
 ```shell
@@ -18,8 +18,10 @@ source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/m
 ```
 
 Running either of the above commands downloads the script and runs it. By default you will be promted to provide a few options, but you 
-can create a file called `~/.devboxrc` to provide default responses for unattended installs if you prefer. This file will be created upon
-first use to avoid prompting in the future. For example:
+can create a file called `~/.devboxrc` to provide default responses for unattended installs if you prefer. The first time you run the script
+this file will be created automatically to store your configuration settings for future use.
+
+#### ~/.devboxrc
 
 ```env
 name = Jay Doe
@@ -29,12 +31,37 @@ token = ghp_YourGithubTokenForNpmPackageInstalls
 
 ### Windows using [wsl2](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-If you do not yet have a WSL setup and configured you can run the following to perform a 1st time install of the current Ubuntu LTS distro:
+#### Installing WSL Ubuntu
+
+First open a powershell or cmd session in your terminal application.
+
+**Optional: Performing a Clean Install** 
+
+If you want to start from scratch with a brand new installation you can run the following command before
+proceeding, but please be aware that **ALL EXISTING FILES IN YOUR CURRENT UBUNTU INSTALLATION WILL BE DELETED**.
 
 ```shell
-C:\Users\foo> wsl --install
-C:\Users\foo> wsl --set-default-version 2
-C:\Users\foo> wsl --set-default-version 2
+C:\Users\foo> wsl --unregister Ubuntu
+```
+
+Now run the following commands to install using the current Ubuntu LTS distribution:
+
+```shell
+C:\Users\foo> wsl --update
+C:\Users\foo> wsl --install -d Ubuntu
+```
+
+After this part is done you will be in a bash shell. Type `exit` to return to your original powershell 
+or cmd session. Now run this to ensure your new install is set as the default:
+
+```shell
+C:\Users\foo> wsl --setdefault Ubuntu
+```
+
+Close your terminal and open a **new** bash terminal before running the devbox script.
+
+```shell
+source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 ### MacOS using [orbstack](https://orbstack.dev)
