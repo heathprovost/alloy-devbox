@@ -74,7 +74,7 @@ source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/m
 
 This will create an Ubuntu machine called "alloy" and then open an ssh session to it:
 
-```sh
+```console
 orb create ubuntu alloy && ssh alloy@orb
 ```
 
@@ -82,6 +82,6 @@ orb create ubuntu alloy && ssh alloy@orb
 
 Now just run the devbox script.
 
-```sh
+```console
 source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
