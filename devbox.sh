@@ -131,13 +131,13 @@ function install_node () {
   sudo apt-get -y install make gcc g++ python3-minimal
 
   # set node version
-  local node_version='18'
-  local nvm_version='v0.39.5'
+  local node_version='18.19.0'
+  local nvm_version='0.39.5'
 
   # if nvm is not already installed install it
   if [ ! -d "${HOME}/.nvm/.git" ]; then
     # download and run install script directly from nvm github repo
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$nvm_version/install.sh | bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$nvm_version/install.sh | bash
     env_updated="true"
   fi
 
@@ -150,7 +150,7 @@ function install_node () {
   nvm use $node_version
 
   # install nawsso globally
-  npm install -g @heathprovost/nawsso
+  $NVM_DIR/v$NODE_VERSION/bin/npm install -g @heathprovost/nawsso
 
   # setup default .npmrc file if it does not exist and GIT_HUB_PKG_TOKEN is set
   if [ -n "${GIT_HUB_PKG_TOKEN}" ]; then
