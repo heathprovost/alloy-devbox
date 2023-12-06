@@ -1,12 +1,12 @@
 #!/bin/bash
 
-set -Eeu pipefail
+set -Ee pipefail
 
 #
 # ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
 #
 function resolve_sudo() {
-  if [ -n "${SUDO_USER-}" ]; then
+  if [ -n "$SUDO_USER" ]; then
     # user is sudo'd
     print_as "error" "This script must be run without using sudo."
     exit 1
