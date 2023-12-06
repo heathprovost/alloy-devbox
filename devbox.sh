@@ -150,7 +150,7 @@ function install_node () {
   nvm use $node_version
 
   # install nawsso globally
-  $NVM_DIR/v$node_version/bin/npm install -g @heathprovost/nawsso
+  $NVM_DIR/versions/node/v$node_version/bin/npm install -g @heathprovost/nawsso
 
   # setup default .npmrc file if it does not exist and GIT_HUB_PKG_TOKEN is set
   if [ -n "${GIT_HUB_PKG_TOKEN}" ]; then
