@@ -85,7 +85,7 @@ function install_common_packages() {
   sudo apt-get -y upgrade
   sudo apt-get -y autoremove
 
-  # install commonly used packaged
+  # install commonly used packages
   sudo apt-get -y install curl wget nano zip unzip
 }
 
@@ -239,7 +239,7 @@ function install_meteor_deps() {
 #
 function execute_and_wait() {
   log "===================================\n$1\n===================================\n"
-  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
+  (eval install_$1 &>> "/var/log/devbox.log" 2>&1) &
   local pid=$!
   local delay=0.05
 
