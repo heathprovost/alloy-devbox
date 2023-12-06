@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -Ee
-
 #
 # ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
 #
