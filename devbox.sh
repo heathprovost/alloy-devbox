@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -Ee pipefail
+set -e pipefail
 
 #
 # ensures that script itself is *not* run using the sudo command but that there *is* a sudo session that can be used when needed
@@ -150,7 +150,7 @@ function install_node () {
   nvm use $node_version
 
   # install nawsso globally
-  $NVM_DIR/v$NODE_VERSION/bin/npm install -g @heathprovost/nawsso
+  $NVM_DIR/v$node_version/bin/npm install -g @heathprovost/nawsso
 
   # setup default .npmrc file if it does not exist and GIT_HUB_PKG_TOKEN is set
   if [ -n "${GIT_HUB_PKG_TOKEN}" ]; then
