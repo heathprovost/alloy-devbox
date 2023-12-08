@@ -255,7 +255,7 @@ function install_meteor_deps() {
 #
 function execute_and_wait() {
   log "===================================\n$1\n===================================\n"
-  install_$1 > "/var/log/devbox.log" 2>&1 &
+  install_$1 &>> "/var/log/devbox.log" &
   local pid=$!
   log "pid for $1: $pid\n"
   local delay=0.05
