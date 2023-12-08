@@ -186,7 +186,7 @@ function install_dotnet_sdk() {
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
 
   # remove the existing .NET install from $HOME/.dotnet if it exists
-  rm -rf HOME/.dotnet
+  rm -rf $HOME/.dotnet
 
   # run the dotnet-install script
   curl -fsSL  https://dot.net/v1/dotnet-install.sh | bash -s -- --channel LTS
