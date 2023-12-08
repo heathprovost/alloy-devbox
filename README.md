@@ -12,16 +12,17 @@ There are no install dependencies other than your target environment must be run
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
 ```sh
-source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+bash -i <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 ```sh
-source <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+bash -i <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
-Running either of the above commands downloads the script and runs it. By default you will be promted to provide a few options, but you 
-can create a file called `~/.devboxrc` to provide default responses for unattended installs if you prefer. The first time you run the script
-this file will be created automatically to store your configuration settings for future use.
+Running either of the above commands downloads the script and runs it. By default you will be promted to
+provide a few options, but you can create a file called `~/.devboxrc` to provide default responses for 
+unattended installs if you prefer. The first time you run the script this file will be created automatically
+to store your configuration settings for future use.
 
 #### 🔹Example ~/.devboxrc
 
@@ -65,7 +66,7 @@ wsl --setdefault Ubuntu
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
 ```sh
-source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+bash -i <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
 
 ## 🧊 MacOS Using [OrbStack](https://orbstack.dev)
@@ -83,5 +84,5 @@ orb create ubuntu alloy && ssh alloy@orb
 Now just run the devbox script.
 
 ```sh
-source <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+bash -i <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
 ```
