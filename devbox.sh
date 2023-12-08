@@ -310,6 +310,9 @@ function configure() {
 
   ENV_UPDATED="false"
 
+  # disable updating man files on package installs. This is very very slow and no one uses them anyway
+  rm -f /var/lib/man-db/auto-update
+
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
     print_as "info" "Using existing '~/.devboxrc' file for configuration."
