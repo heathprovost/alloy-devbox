@@ -255,7 +255,7 @@ function install_meteor_deps() {
 #
 function execute_and_wait() {
   log "===================================\n$1\n===================================\n"
-  install_$1 &>> "/var/log/devbox.log" &
+  install_$1 > "/var/log/devbox.log" 2>&1 &
   local pid=$!
   log "pid for $1: $pid\n"
   local delay=0.05
@@ -282,7 +282,7 @@ function execute_and_wait() {
   #
   # Wait the command to be finished, this is needed to capture its exit status
   #
-  wait $pid
+  wait $!
   local exit_code=$?
 
   log "Install function completed with exit code: $exit_code"
