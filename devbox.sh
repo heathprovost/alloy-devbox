@@ -87,8 +87,6 @@ function install_common_packages() {
 
   # install commonly used packages
   sudo apt-get -y install curl wget nano zip unzip
-
-  exit 0
 }
 
 #
@@ -120,8 +118,6 @@ function install_git() {
   else
     log "GIT_USER_NAME and GIT_USER_EMAIL not set, skipping"
   fi
-
-  exit 0
 }
 
 #
@@ -163,8 +159,6 @@ function install_node () {
   if [ "$env_updated" = "true" ]; then
     exit 90
   fi
-
-  exit 0
 }
 
 #
@@ -173,8 +167,6 @@ function install_node () {
 function install_java_jdk () {
   # install java
   sudo apt-get -y install openjdk-11-jdk-headless
-
-  exit 0
 }
 
 #
@@ -206,8 +198,6 @@ function install_dotnet_sdk() {
   if [ "$env_updated" = "true" ]; then
     exit 90
   fi
-
-  exit 0
 }
 
 #
@@ -223,8 +213,6 @@ function install_aws_cli() {
   sudo ./aws/install
   rm -rf awscliv2.zip
   rm -rf aws/
-
-  exit 0
 }
 
 #
@@ -233,8 +221,6 @@ function install_aws_cli() {
 function install_cypress_deps() {
   # install packages required for cypress
   sudo apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-
-  exit 0
 }
 
 #
@@ -243,8 +229,6 @@ function install_cypress_deps() {
 function install_meteor_deps() {
   # install packages required for meteor builds
   sudo apt-get -y install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-
-  exit 0
 }
 
 #
@@ -254,10 +238,9 @@ function install_meteor_deps() {
 # @param string $2 - the title to show next the spinner
 #
 function execute_and_wait() {
-  log "===================================\n$1\n===================================\n"
   install_$1 &>> "/var/log/devbox.log" &
   local pid=$!
-  log "pid for $1: $pid\n"
+  log "===================================\n$1: pid $pid\n===================================\n"
   local delay=0.05
 
   local frames=('\u280B' '\u2819' '\u2839' '\u2838' '\u283C' '\u2834' '\u2826' '\u2827' '\u2807' '\u280F')
@@ -282,7 +265,7 @@ function execute_and_wait() {
   #
   # Wait the command to be finished, this is needed to capture its exit status
   #
-  wait $!
+  wait $pid
   local exit_code=$?
 
   log "Install function completed with exit code: $exit_code"

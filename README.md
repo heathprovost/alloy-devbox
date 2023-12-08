@@ -12,11 +12,11 @@ There are no install dependencies other than your target environment must be run
 or higher. Setup is performed by simply running one of the following cURL or Wget commands on the target machine, VM, or container.
 
 ```sh
-bash -i <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+bash <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 ```sh
-bash -i <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+bash <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 Running either of the above commands downloads the script and runs it. By default you will be promted to
@@ -66,7 +66,12 @@ wsl --setdefault Ubuntu
 Close your terminal and open a **new** bash terminal before running the devbox script.
 
 ```sh
-bash -i <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+bash <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+```
+or
+
+```sh
+bash <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
 
 ## 🧊 MacOS Using [OrbStack](https://orbstack.dev)
@@ -81,8 +86,13 @@ orb create ubuntu alloy && ssh alloy@orb
 
 #### 🔹Run DevBox
 
-Now just run the devbox script.
+Now just run the devbox script:
 
 ```sh
-bash -i <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)  
+bash <(curl -so- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
+```
+or
+
+```sh
+bash <(wget -qO- https://raw.githubusercontent.com/heathprovost/alloy-devbox/main/devbox.sh)
 ```
