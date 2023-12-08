@@ -70,6 +70,13 @@ function print_as() {
 }
 
 #
+# check if command exists
+#
+function exists() {
+  command -v "$1" &> /dev/null 
+}
+
+#
 # log to log file
 #
 function log() {
@@ -178,11 +185,11 @@ function install_dotnet_sdk() {
   # remove the existing .NET packages from your distribution just in case to avoid conflicts
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
 
-  # set node version
-  local dotnet_version='6.0.410'
+  # remove the existing .NET install from $HOME/.dotnet if it exists
+  rm -rf HOME/.dotnet
 
   # run the dotnet-install script
-  curl -fsSL  https://dot.net/v1/dotnet-install.sh | bash -s -- --version $dotnet_version
+  curl -fsSL  https://dot.net/v1/dotnet-install.sh | bash -s -- --channel LTS
 
   # append exports to .bashrc if needed
   if ! grep -qc '# dotnet exports' "$HOME/.bashrc"; then
