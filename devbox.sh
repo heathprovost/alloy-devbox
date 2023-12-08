@@ -239,6 +239,35 @@ function install_meteor_deps() {
 }
 
 #
+# install user scripts
+#
+function install_scripts() {
+  local env_updated
+
+  # create our scripts directory if needed
+  mkdir -p $HOME/.user_scripts
+
+  # prepend ~/.user_scripts to $PATH and write to .bashrc if needed
+  if ! grep -qc '# prepend PATH with ~/.user_scripts' "$HOME/.bashrc"; then
+    printf '\n# prepend PATH with ~/.user_scripts\nexport PATH=$HOME/.user_scripts:$PATH\n' >> "$HOME/.bashrc"
+    env_updated="true"
+  fi
+
+  # if we are on orbstack install a vscode cli script to open in editor using ssh. This is not needed for WSL
+  if [ -d "/opt/orbstack-guest" ]; then
+    cat << 'EOF' > $HOME/.user_scripts/code
+#!/usr/bin/env bash
+
+dir="$(realpath "${1:-$(pwd)}")"
+echo "Opening $dir in VSCode..."
+exec mac code --folder-uri "vscode-remote://ssh-remote+$(whoami)@$(hostname)@orb$dir"
+EOF
+  chmod +x $HOME/.user_scripts/code
+  fi
+}
+
+
+#
 # Run the command passed as 1st argument and shows the spinner until this is done
 #
 # @param string $1 - the command to run
@@ -381,6 +410,7 @@ function setup() {
   execute_and_wait 'aws_cli'
   execute_and_wait 'cypress_deps'
   execute_and_wait 'meteor_deps'
+  execute_and_wait 'scripts'
 
   # show completion report
   completion_report
