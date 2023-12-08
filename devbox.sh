@@ -81,7 +81,7 @@ function log() {
 #
 function install_common_packages() {
   # runs apt-get update, upgrade, and autoremove
-  exit 90
+  exit 2
   sudo apt-get -y update
   sudo apt-get -y upgrade
   sudo apt-get -y autoremove
