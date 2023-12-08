@@ -87,8 +87,6 @@ function install_common_packages() {
 
   # install commonly used packages
   sudo apt-get -y install curl wget nano zip unzip
-
-  exit 0
 }
 
 #
@@ -120,8 +118,6 @@ function install_git() {
   else
     log "GIT_USER_NAME and GIT_USER_EMAIL not set, skipping"
   fi
-
-  exit 0
 }
 
 #
@@ -163,8 +159,6 @@ function install_node () {
   if [ "$env_updated" = "true" ]; then
     exit 90
   fi
-
-  exit 0
 }
 
 #
@@ -173,8 +167,6 @@ function install_node () {
 function install_java_jdk () {
   # install java
   sudo apt-get -y install openjdk-11-jdk-headless
-
-  exit 0
 }
 
 #
@@ -206,8 +198,6 @@ function install_dotnet_sdk() {
   if [ "$env_updated" = "true" ]; then
     exit 90
   fi
-
-  exit 0
 }
 
 #
@@ -223,8 +213,6 @@ function install_aws_cli() {
   sudo ./aws/install
   rm -rf awscliv2.zip
   rm -rf aws/
-
-  exit 0
 }
 
 #
@@ -233,8 +221,6 @@ function install_aws_cli() {
 function install_cypress_deps() {
   # install packages required for cypress
   sudo apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-
-  exit 0
 }
 
 #
@@ -243,8 +229,6 @@ function install_cypress_deps() {
 function install_meteor_deps() {
   # install packages required for meteor builds
   sudo apt-get -y install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-
-  exit 0
 }
 
 #
@@ -255,7 +239,7 @@ function install_meteor_deps() {
 #
 function execute_and_wait() {
   log "===================================\n$1\n===================================\n"
-  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
+  eval install_$1 >> "/var/log/devbox.log" 2>&1 &
   local pid=$!
   local delay=0.05
 
