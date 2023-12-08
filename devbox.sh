@@ -265,7 +265,7 @@ function execute_and_wait() {
   #
   # Wait the command to be finished, this is needed to capture its exit status
   #
-  wait $pid
+  wait $!
   local exit_code=$?
 
   log "Install function completed with exit code: $exit_code"
@@ -340,7 +340,7 @@ function configure() {
   # save to .devboxrc for future use
   printf "name = $GIT_USER_NAME\nemail = $GIT_USER_EMAIL\ntoken = $GIT_HUB_PKG_TOKEN\n" > "$HOME/.devboxrc"
 
-  # delete setup.log if it exists
+  # delete log if it exists. We want a new log every run
   if [ -f "$logfile" ]; then
     sudo rm -f "$logfile"
   fi
