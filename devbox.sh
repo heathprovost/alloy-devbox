@@ -81,6 +81,7 @@ function log() {
 #
 function install_common_packages() {
   # runs apt-get update, upgrade, and autoremove
+  exit 90
   sudo apt-get -y update
   sudo apt-get -y upgrade
   sudo apt-get -y autoremove
@@ -239,7 +240,7 @@ function install_meteor_deps() {
 #
 function execute_and_wait() {
   log "===================================\n$1\n===================================\n"
-  (set -e; eval install_$1 &>> "/var/log/devbox.log" 2>&1) &
+  eval install_$1 &>> "/var/log/devbox.log" 2>&1 &
   local pid=$!
   local delay=0.05
 
