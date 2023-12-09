@@ -87,14 +87,14 @@ function log() {
 # returns the current linux distribution name (i.e. "Ubuntu")
 #
 function dist_name() {
-  lsb_release -si
+  lsb_release -si 2>/dev/null
 }
 
 #
 # returns the current linux distribution release (i.e. "22.04")
 #
 function dist_release() {
-  lsb_release -sr
+  lsb_release -sr 2>/dev/null
 }
 
 #
