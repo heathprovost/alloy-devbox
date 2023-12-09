@@ -373,8 +373,8 @@ function configure() {
 
   local logfile="/var/log/devbox.log"
 
-  local distname = $(dist_name)
-  local distrelease = $(dist_release)
+  local distname=$(dist_name)
+  local distrelease=$(dist_release)
 
   ENV_UPDATED="false"
 
