@@ -203,9 +203,9 @@ function install_dotnet_sdk() {
   local package_deps = 'libc6 libgcc1 libgcc-s1 libgssapi-krb5-2 liblttng-ust1 libssl3 libstdc++6 libunwind8 zlib1g'
 
   # add release specific dependencies
-  if dist_release = "22.04"; then
+  if dist_release | grep -q '22.04'; then
     package_deps = "${package_deps} libicu70"
-  elif dist_release = "22.10"; then
+  elif dist_release | grep -q '22.10'; then
     package_deps = "${package_deps} libicu71"
   else
     package_deps = "${package_deps} libicu72"
@@ -376,7 +376,7 @@ function configure() {
   ENV_UPDATED="false"
 
   # check distribution name. We ONLY support running on Ubuntu
-  if dist_name != 'Ubuntu'; then
+  if dist_name | grep -q 'Ubuntu'; then
     print_as "error" "Linux reports its distribution name as \"$dist_name\" but this script only supports \"Ubuntu\". Cannot continue."
     exit 1
   fi
