@@ -373,17 +373,20 @@ function configure() {
 
   local logfile="/var/log/devbox.log"
 
+  local distname = $(dist_name)
+  local distrelease = $(dist_release)
+
   ENV_UPDATED="false"
 
   # check distribution name. We ONLY support running on Ubuntu
-  if dist_name | grep -q 'Ubuntu'; then
-    print_as "error" "Linux reports its distribution name as \"$dist_name\" but this script only supports \"Ubuntu\". Cannot continue."
+  if ! echo "$distname" | grep -q 'Ubuntu'; then
+    print_as "error" "Linux reports its distribution name as \"$distname\" but this script only supports \"Ubuntu\". Cannot continue."
     exit 1
   fi
 
   # check distribution version. We ONLY support running on Ubuntu 22.04, 22.10, 23.04, 23.10 currently
-  if dist_release | grep -P '^22\.04|22\.10|32\.04|23\.10$'; then
-    print_as "error" "Linux reports its distribution name as \"$dist_name\" but this script only supports \"Ubuntu\". Cannot continue."
+  if ! echo "$distrelease" | grep -P '^22\.04|22\.10|32\.04|23\.10$'; then
+    print_as "error" "Linux reports its distribution release version as \"$distrelease\" but this script only supports \"22.04\", \"22.10\", \"23.04\", and \"23.10\". Cannot continue."
     exit 1
   fi
 
