@@ -218,7 +218,7 @@ function install_dotnet_sdk() {
   rm -rf /usr/local/share/dotnet
 
   # run the dotnet-install script
-  curl -fsSL  https://dot.net/v1/dotnet-install.sh | sudo bash -s -- --channel LTS --instal-dir /usr/local/share/dotnet
+  curl -fsSL  https://dot.net/v1/dotnet-install.sh | sudo bash -s -- --channel LTS --install-dir /usr/local/share/dotnet
 
   # append exports to .bashrc if needed
   if ! grep -qc '# dotnet exports' "$HOME/.bashrc"; then
