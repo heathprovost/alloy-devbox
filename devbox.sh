@@ -84,6 +84,20 @@ function log() {
 }
 
 #
+# returns the current linux distribution name (i.e. "Ubuntu")
+#
+function dist_name() {
+  lsb_release -si
+}
+
+#
+# returns the current linux distribution release (i.e. "22.04")
+#
+function dist_release() {
+  lsb_release -sr
+}
+
+#
 # installs common-packages
 #
 function install_common_packages() {
@@ -182,8 +196,23 @@ function install_java_jdk () {
 function install_dotnet_sdk() {
   local env_updated
 
-  # remove the existing .NET packages from your distribution just in case to avoid conflicts
+  # remove any existing .NET packages from your distribution just in case to avoid conflicts
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
+
+  # make list of system dependencies that apply to all Ubuntu releases (see https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#dependencies)
+  local package_deps = 'libc6 libgcc1 libgcc-s1 libgssapi-krb5-2 liblttng-ust1 libssl3 libstdc++6 libunwind8 zlib1g'
+
+  # add release specific dependencies
+  if dist_release = "22.04"; then
+    package_deps = "${package_deps} libicu70"
+  elif dist_release = "22.10"; then
+    package_deps = "${package_deps} libicu71"
+  else
+    package_deps = "${package_deps} libicu72"
+  fi
+
+  # install the dependencies
+  sudo apt-get -y install $package_deps
 
   # remove the existing .NET install from $HOME/.dotnet if it exists
   rm -rf $HOME/.dotnet
@@ -345,6 +374,18 @@ function configure() {
   local logfile="/var/log/devbox.log"
 
   ENV_UPDATED="false"
+
+  # check distribution name. We ONLY support running on Ubuntu
+  if dist_name != 'Ubuntu'; then
+    print_as "error" "Linux reports its distribution name as \"$dist_name\" but this script only supports \"Ubuntu\". Cannot continue."
+    exit 1
+  fi
+
+  # check distribution version. We ONLY support running on Ubuntu 22.04, 22.10, 23.04, 23.10 currently
+  if dist_release | grep -P '^22\.04|22\.10|32\.04|23\.10$'; then
+    print_as "error" "Linux reports its distribution name as \"$dist_name\" but this script only supports \"Ubuntu\". Cannot continue."
+    exit 1
+  fi
 
   # import from .devboxrc if it exists otherwise prompt for input of options
   if [ -f "$HOME/.devboxrc" ]; then
