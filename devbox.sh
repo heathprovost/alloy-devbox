@@ -214,11 +214,11 @@ function install_dotnet_sdk() {
   # install the dependencies
   sudo apt-get -y install $package_deps
 
-  # remove the existing .NET install from $HOME/.dotnet if it exists
-  rm -rf $HOME/.dotnet
+  # remove the existing .NET install from /usr/local/share/dotnet if it exists
+  rm -rf /usr/local/share/dotnet
 
   # run the dotnet-install script
-  curl -fsSL  https://dot.net/v1/dotnet-install.sh | bash -s -- --channel LTS
+  curl -fsSL  https://dot.net/v1/dotnet-install.sh | sudo bash -s -- --channel LTS --instal-dir /usr/local/share/dotnet
 
   # append exports to .bashrc if needed
   if ! grep -qc '# dotnet exports' "$HOME/.bashrc"; then
@@ -227,7 +227,7 @@ function install_dotnet_sdk() {
   fi
 
   # update current shell with exports needed to run dotnet commands
-  export DOTNET_ROOT="$HOME/.dotnet"
+  export DOTNET_ROOT=/usr/local/share/dotnet
   export DOTNET_CLI_TELEMETRY_OPTOUT=1
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
