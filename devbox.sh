@@ -200,15 +200,15 @@ function install_dotnet_sdk() {
   sudo apt-get -y remove 'dotnet*' 'aspnet*' 'netstandard*'
 
   # make list of system dependencies that apply to all Ubuntu releases (see https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#dependencies)
-  local package_deps = 'libc6 libgcc1 libgcc-s1 libgssapi-krb5-2 liblttng-ust1 libssl3 libstdc++6 libunwind8 zlib1g'
+  local package_deps='libc6 libgcc1 libgcc-s1 libgssapi-krb5-2 liblttng-ust1 libssl3 libstdc++6 libunwind8 zlib1g'
 
   # add release specific dependencies
   if dist_release | grep -q '22.04'; then
-    package_deps = "${package_deps} libicu70"
+    package_deps="${package_deps} libicu70"
   elif dist_release | grep -q '22.10'; then
-    package_deps = "${package_deps} libicu71"
+    package_deps="${package_deps} libicu71"
   else
-    package_deps = "${package_deps} libicu72"
+    package_deps="${package_deps} libicu72"
   fi
 
   # install the dependencies
